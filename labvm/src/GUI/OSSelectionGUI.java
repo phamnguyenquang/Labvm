@@ -14,6 +14,7 @@ import javax.swing.SwingWorker;
 
 import BackEnd.CommandExecutor;
 import BackEnd.pciConfiguration;
+import BackEnd.virshHandler;
 import BackEnd.vmHandler;
 
 import java.awt.event.ActionListener;
@@ -30,12 +31,14 @@ public class OSSelectionGUI {
 	private JFrame frame;
 	private CommandExecutor linuxCommandExecutor;
 	private String path = "";
+	private String OSName = "";
 	private vmHandler vmExecutor;
 	private pciConfiguration pci;
 	private JList<String> list;
 	private SwingWorker<Void, Void> mySwingWorker;
 	private ArrayList<JButton> Btn_list = new ArrayList<JButton>();
 	private ArrayList<JButton> Btn_list_special = new ArrayList<JButton>();
+	private virshHandler virshVM;
 
 	/**
 	 * Launch the application.
@@ -59,6 +62,7 @@ public class OSSelectionGUI {
 		try {
 			pci = new pciConfiguration();
 			linuxCommandExecutor = new CommandExecutor();
+			virshVM = new virshHandler();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -97,10 +101,21 @@ public class OSSelectionGUI {
 					if (JOptionPane.showConfirmDialog(null,
 							"This optoion will not allow any changed in state to be saved\n To make any changes in the state, please select the appropriate starting option\n In case any option is disabled, please contact the administrator \n Proceed?",
 							"NOTE", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-						String pathStart = path + "/linux.img";
-						pci.vfioBind();
-						vmExecutor = new vmHandler(pci, linuxCommandExecutor);
-						vmExecutor.startSnapShotFrom(pathStart);
+						/*
+						 * Non Virsh method, comment accordingly
+						 */
+//						String pathStart = path + "/linux.img";
+//						vmExecutor = new vmHandler(pci, linuxCommandExecutor);
+//						vmExecutor.startSnapShotFrom(pathStart);
+
+						/*
+						 * virsh method, comment accordingly
+						 */
+
+						virshVM.shutdownVM(OSName);
+						virshVM.restorefromSnapshotFresh(OSName);
+						virshVM.startVM(OSName);
+						virshVM.displayVM(OSName);
 					} else {
 						System.out.println("No chosen");
 					}
@@ -118,9 +133,22 @@ public class OSSelectionGUI {
 					JOptionPane.showMessageDialog(null, "Please select a an OS", "Error", 0);
 				} else {
 					String pathStart = path + "/linux.img";
-					pci.vfioBind();
-					vmExecutor = new vmHandler(pci, linuxCommandExecutor);
-					vmExecutor.startVM(pathStart);
+
+					/*
+					 * non Virsh method
+					 */
+//					vmExecutor = new vmHandler(pci, linuxCommandExecutor);
+//					vmExecutor.startVM(pathStart);
+
+					/*
+					 * Virsh method
+					 */
+
+					virshVM.shutdownVM(OSName);
+					virshVM.restorefromSnapshotCurrent(OSName);
+					virshVM.startVM(OSName);
+					virshVM.displayVM(OSName);
+					virshVM.createSnapshotCurent(OSName);
 				}
 			}
 		});
@@ -159,7 +187,7 @@ public class OSSelectionGUI {
 		JButton button = new JButton("?");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				pci.vfioUnbind();
+				System.out.println(linuxCommandExecutor.startCommand("pwd"));
 			}
 		});
 		/*
@@ -178,6 +206,7 @@ public class OSSelectionGUI {
 			public void mouseClicked(MouseEvent arg0) {
 				String path1 = "/home/$(whoami)/virsh/";
 				path = "/home/$(whoami)/virsh/" + '"' + list.getSelectedValue().toString() + '"';
+				OSName = list.getSelectedValue().toString();
 				System.out.println(path);
 				for (int i = 0; i < Btn_list.size(); ++i) {
 					Btn_list.get(i).setEnabled(true);
