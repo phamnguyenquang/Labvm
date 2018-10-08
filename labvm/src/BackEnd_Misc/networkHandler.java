@@ -1,4 +1,4 @@
-package BackEnd;
+package BackEnd_Misc;
 
 public class networkHandler {
 	private String IPAddress;

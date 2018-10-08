@@ -8,7 +8,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
-import BackEnd.CommandExecutor;
+import BackEnd_Misc.CommandExecutor;
 
 public class ShowWaitAction {
 	protected static final long SLEEP_TIME = 3 * 1000;

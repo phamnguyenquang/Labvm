@@ -7,12 +7,15 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
-import BackEnd.CommandExecutor;
-import BackEnd.pciConfiguration;
-import BackEnd.vmHandler;
+
+import BackEnd_VMtypeHandlers.GeneralVMHandler;
+import BackEnd_VMtypeHandlers.vmHandler;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+
+import BackEnd_Misc.CommandExecutor;
+import BackEnd_Misc.pciConfiguration;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,19 +25,18 @@ public class BackupSelection {
 
 	private JFrame frame;
 	private CommandExecutor linuxCommandHandler;
-	private pciConfiguration pci;
-	private vmHandler vmHandler;
 	private String OSname;
 	private String path;
+	private GeneralVMHandler vmHandler;
 	private JList<String>list;
 
 	/**
 	 * Create the UI.
 	 */
-	public BackupSelection(String pp, CommandExecutor bb, pciConfiguration p) {
+	public BackupSelection(String pp, CommandExecutor bb, GeneralVMHandler vmm) {
 		path = pp;
 		linuxCommandHandler = bb;
-		pci = p;
+		vmHandler = vmm;
 
 		initialize();
 	}
@@ -88,8 +90,6 @@ public class BackupSelection {
 				if (OSname == "" || OSname == null) {
 					JOptionPane.showMessageDialog(null, "Please select an OS", "Error", 0);
 				} else {
-					pci.vfioBind();
-					vmHandler = new vmHandler(pci, linuxCommandHandler);
 					String startPath = path + OSname;
 					vmHandler.startVM(startPath);
 				}
@@ -105,7 +105,7 @@ public class BackupSelection {
 				btnTestFunction.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						frame.dispose();
-						new OSSelectionGUI();
+						new OSSelectionGUI(vmHandler);
 					}
 				});
 				GridBagConstraints gbc_btnTestFunction = new GridBagConstraints();

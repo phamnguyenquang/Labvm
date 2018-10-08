@@ -11,7 +11,8 @@ import java.awt.Insets;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-import BackEnd.pciConfiguration;
+import BackEnd_Misc.pciConfiguration;
+import BackEnd_VMtypeHandlers.GeneralVMHandler;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -26,11 +27,13 @@ public class AdminGUI {
 			"Server Setting(under construction)", "Exit" };
 	private JList list;
 	private String function = "";
+	private GeneralVMHandler vmHandler;
 
 	/**
 	 * Create the application.
 	 */
-	public AdminGUI() {
+	public AdminGUI(GeneralVMHandler vmm) {
+		vmHandler = vmm;
 		initialize();
 	}
 
@@ -108,7 +111,7 @@ public class AdminGUI {
 		JButton btnNewButton_1 = new JButton("Back");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new OSSelectionGUI();
+				new OSSelectionGUI(vmHandler);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();

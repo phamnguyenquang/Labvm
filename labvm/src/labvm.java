@@ -1,21 +1,17 @@
 import java.io.*;
 
-import BackEnd.pciConfiguration;
-import BackEnd.vmHandler;
+import BackEnd_Misc.CommandExecutor;
+import BackEnd_Misc.pciConfiguration;
+import BackEnd_VMtypeHandlers.GeneralVMHandler;
+import BackEnd_VMtypeHandlers.vmHandler;
+import GUI.OSSelectionGUI;
 
 public class labvm {
 
 	public static void main(String args[]) throws IOException {
-//		TaskExecutor ts = new TaskExecutor();
-//		String pciAddresses = "";
-//		pciConfiguration br = new pciConfiguration();
-//		for (int i = 0; i < br.PCISlotNumber(); ++i) {
-//			pciAddresses += ("-device vfio-pci,host=" + br.getPCIaddressAt(i) + " ");
-//		}
-//		System.out.println(pciAddresses);
-//		br.vfioBind();
-//		vmHandler vm = new vmHandler();
-//		vm.startVM("/home/quang/virsh/guess/guess");
-
+		pciConfiguration pci = new pciConfiguration();
+		CommandExecutor linuxCommandExecutor = new CommandExecutor();
+		GeneralVMHandler vmHandler = new vmHandler(pci, linuxCommandExecutor);
+		new OSSelectionGUI(vmHandler);
 	}
 }

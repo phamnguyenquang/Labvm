@@ -1,4 +1,4 @@
-package BackEnd;
+package BackEnd_Misc;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,16 +18,17 @@ public class pciConfiguration {
 
 	public pciConfiguration() throws IOException {
 		bw.startCommand("pwd");
-		GenerateConfigFile("/home/quang/pciAddressList");
-		readConfigFile("/home/quang/pciAddressList");
+		String config = bw.getResult();
+		GenerateConfigFile(config + "/pciAddressList");
+		readConfigFile(config + "/pciAddressList");
 	}
 
-	private void GenerateConfigFile(String path)
-	{
+	private void GenerateConfigFile(String path) {
+		System.out.println(path);
 		bw.startCommand("sudo lspci | grep -e Ethernet -e Wireless > " + path);
 		bw.startCommand("sudo chmod 777 " + path);
 	}
-	
+
 	private void readConfigFile(String path) throws IOException {
 		File file = new File(path);
 		FileReader fileReader = new FileReader(file);

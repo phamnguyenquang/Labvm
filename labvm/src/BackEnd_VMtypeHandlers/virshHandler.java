@@ -1,6 +1,10 @@
-package BackEnd;
+package BackEnd_VMtypeHandlers;
 
-public class virshHandler {
+import javax.swing.DefaultListModel;
+
+import BackEnd_Misc.CommandExecutor;
+
+public class virshHandler extends GeneralVMHandler {
 	private CommandExecutor bw;
 
 	public virshHandler() {
@@ -51,5 +55,14 @@ public class virshHandler {
 	public void deleteSnapshotCurrent(String name) {
 		bw.startCommand(
 				"sudo virsh snapshot-delete --domain " + name + " --snapshotname " + name + "_snapshot_current");
+	}
+
+	public DefaultListModel<String> getOSList() {
+		return bw.listDir("/home/$(whoami)/virsh");
+	}
+	@Override
+	public void startSnapShotFrom(String path) {
+		// TODO Auto-generated method stub
+		
 	}
 }

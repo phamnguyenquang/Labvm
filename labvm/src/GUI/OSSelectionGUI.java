@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -12,10 +13,11 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
-import BackEnd.CommandExecutor;
-import BackEnd.pciConfiguration;
-import BackEnd.virshHandler;
-import BackEnd.vmHandler;
+import BackEnd_Misc.CommandExecutor;
+import BackEnd_Misc.pciConfiguration;
+import BackEnd_VMtypeHandlers.GeneralVMHandler;
+import BackEnd_VMtypeHandlers.virshHandler;
+import BackEnd_VMtypeHandlers.vmHandler;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -33,37 +35,19 @@ public class OSSelectionGUI {
 	private String path = "";
 	private String OSName = "";
 	private vmHandler vmExecutor;
-	private pciConfiguration pci;
 	private JList<String> list;
+
 	private SwingWorker<Void, Void> mySwingWorker;
 	private ArrayList<JButton> Btn_list = new ArrayList<JButton>();
+	private DefaultListModel<String> OSImageList = new DefaultListModel<String>();
 	private ArrayList<JButton> Btn_list_special = new ArrayList<JButton>();
-	private virshHandler virshVM;
+	private GeneralVMHandler vmHandler;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					new OSSelectionGUI();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public OSSelectionGUI() {
+	public OSSelectionGUI(GeneralVMHandler vmm) {
 		try {
-			pci = new pciConfiguration();
 			linuxCommandExecutor = new CommandExecutor();
-			virshVM = new virshHandler();
-		} catch (IOException e) {
+			vmHandler = vmm;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		initialize();
@@ -85,8 +69,6 @@ public class OSSelectionGUI {
 				Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
-		linuxCommandExecutor.listDir("/home/$(whoami)/virsh/");
-
 		/*
 		 * Setting up the components
 		 */
@@ -104,18 +86,17 @@ public class OSSelectionGUI {
 						/*
 						 * Non Virsh method, comment accordingly
 						 */
-//						String pathStart = path + "/linux.img";
-//						vmExecutor = new vmHandler(pci, linuxCommandExecutor);
-//						vmExecutor.startSnapShotFrom(pathStart);
+						String pathStart = path + "/linux.img";
+						vmHandler.startSnapShotFrom(pathStart);
 
 						/*
 						 * virsh method, comment accordingly
 						 */
-
-						virshVM.shutdownVM(OSName);
-						virshVM.restorefromSnapshotFresh(OSName);
-						virshVM.startVM(OSName);
-						virshVM.displayVM(OSName);
+//
+//						virshVM.shutdownVM(OSName);
+//						virshVM.restorefromSnapshotFresh(OSName);
+//						virshVM.startVM(OSName);
+//						virshVM.displayVM(OSName);
 					} else {
 						System.out.println("No chosen");
 					}
@@ -137,18 +118,17 @@ public class OSSelectionGUI {
 					/*
 					 * non Virsh method
 					 */
-//					vmExecutor = new vmHandler(pci, linuxCommandExecutor);
-//					vmExecutor.startVM(pathStart);
+					vmHandler.startVM(pathStart);
 
 					/*
 					 * Virsh method
 					 */
 
-					virshVM.shutdownVM(OSName);
-					virshVM.restorefromSnapshotCurrent(OSName);
-					virshVM.startVM(OSName);
-					virshVM.displayVM(OSName);
-					virshVM.createSnapshotCurent(OSName);
+//					virshVM.shutdownVM(OSName);
+//					virshVM.restorefromSnapshotCurrent(OSName);
+//					virshVM.startVM(OSName);
+//					virshVM.displayVM(OSName);
+//					virshVM.createSnapshotCurent(OSName);
 				}
 			}
 		});
@@ -171,7 +151,7 @@ public class OSSelectionGUI {
 		// Btn_list.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new PasswordGUI(frame);
+				new PasswordGUI(frame, vmHandler);
 			}
 		});
 
@@ -180,7 +160,7 @@ public class OSSelectionGUI {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				new FunctionListGUI(path, pci, linuxCommandExecutor);
+				new FunctionListGUI(path, linuxCommandExecutor, vmHandler);
 			}
 		});
 
@@ -200,7 +180,12 @@ public class OSSelectionGUI {
 			Btn_list_special.get(i).setEnabled(false);
 		}
 
-		list = new JList<String>(linuxCommandExecutor.getOutput());
+		/*
+		 * putting the OS name to display
+		 */
+
+		OSImageList = vmHandler.getOSList();
+		list = new JList<String>(OSImageList);
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -211,16 +196,15 @@ public class OSSelectionGUI {
 				for (int i = 0; i < Btn_list.size(); ++i) {
 					Btn_list.get(i).setEnabled(true);
 				}
-				if (linuxCommandExecutor
-						.startCommand("cat " + path1 + '"' + list.getSelectedValue().toString() + '"' + "/state")
-						.equals("false")) {
+				linuxCommandExecutor
+						.startCommand("cat " + path1 + '"' + list.getSelectedValue().toString() + '"' + "/state");
+				System.out.println(linuxCommandExecutor.getResult());
+				if (linuxCommandExecutor.getResult().equals("false")) {
 					System.out.println("test success");
 					for (int i = 0; i < Btn_list_special.size(); ++i) {
 						Btn_list_special.get(i).setEnabled(false);
 					}
-				} else if (linuxCommandExecutor
-						.startCommand("cat " + path1 + '"' + list.getSelectedValue().toString() + '"' + "/state")
-						.equals("true")) {
+				} else if (linuxCommandExecutor.getResult().equals("true")) {
 					for (int i = 0; i < Btn_list_special.size(); ++i) {
 						Btn_list_special.get(i).setEnabled(true);
 					}
@@ -301,4 +285,5 @@ public class OSSelectionGUI {
 	public void dispose() {
 		frame.dispose();
 	}
+
 }

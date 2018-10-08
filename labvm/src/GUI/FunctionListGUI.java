@@ -15,8 +15,9 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
-import BackEnd.CommandExecutor;
-import BackEnd.pciConfiguration;
+import BackEnd_Misc.CommandExecutor;
+import BackEnd_Misc.pciConfiguration;
+import BackEnd_VMtypeHandlers.GeneralVMHandler;
 
 import java.awt.Insets;
 
@@ -31,16 +32,16 @@ public class FunctionListGUI {
 	private SwingWorker<Void, Void> mySwingWorker;
 	private String function;
 	private String path;
-	private pciConfiguration pci;
 	private CommandExecutor linuxCommandExecutor;
+	private GeneralVMHandler vmHandler;
 
 	/**
 	 * Create the GUI.
 	 */
-	public FunctionListGUI(String p, pciConfiguration pp, CommandExecutor cc) {
+	public FunctionListGUI(String p, CommandExecutor bw, GeneralVMHandler vmm) {
 		path = p;
-		pci = pp;
-		linuxCommandExecutor = cc;
+		vmHandler = vmm;
+		linuxCommandExecutor = bw;
 		initialize();
 	}
 
@@ -81,7 +82,7 @@ public class FunctionListGUI {
 					} else {
 						path += "/backup/";
 						System.out.println(path);
-						new BackupSelection(path, linuxCommandExecutor, pci);
+						new BackupSelection(path, linuxCommandExecutor, vmHandler);
 						frame.dispose();
 					}
 
@@ -163,7 +164,7 @@ public class FunctionListGUI {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				new OSSelectionGUI();
+				new OSSelectionGUI(vmHandler);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();

@@ -10,6 +10,9 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+
+import BackEnd_VMtypeHandlers.GeneralVMHandler;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -18,12 +21,14 @@ public class PasswordGUI {
 	private JFrame frame;
 	private JPasswordField passwordField;
 	private JFrame parent;
+	private GeneralVMHandler vmHandler;
 
 	/**
 	 * Create the application.
 	 */
-	public PasswordGUI(JFrame ff) {
+	public PasswordGUI(JFrame ff, GeneralVMHandler vmm) {
 		parent = ff;
+		vmHandler = vmm;
 		initialize();
 	}
 
@@ -67,7 +72,7 @@ public class PasswordGUI {
 					System.out.println("correct pass");
 					parent.dispose();
 					frame.dispose();
-					new AdminGUI();
+					new AdminGUI(vmHandler);
 				} else {
 					JOptionPane.showMessageDialog(null, "Wrong Password", "Error", 0);
 				}
@@ -85,7 +90,6 @@ public class PasswordGUI {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				new OSSelectionGUI();
 			}
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
