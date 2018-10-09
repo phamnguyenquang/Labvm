@@ -12,57 +12,71 @@ public class virshHandler extends GeneralVMHandler {
 		bw.startCommand("sudo virsh connect qemu:///system");
 	}
 
-	public void displayVM(String name) {
+	private void displayVM(String name) {
 		bw.startCommand("sudo virt-viewer -f --hotkeys='' " + name);
 	}
 
-	public void startVM(String name) {
-		bw.startCommand("sudo virsh start " + name);
-	}
-
-	public void shutdownVM(String name) {
+	private void shutdownVM(String name) {
 		bw.startCommand("sudo virsh shutdown " + name);
 	}
 
-	public void defineVM(String pathToXml) {
+	private void defineVM(String pathToXml) {
 		bw.startCommand("sudo virsh define " + pathToXml);
 	}
 
-	public void createSnapshotFresh(String name) {
+	private void createSnapshotFresh(String name) {
 		bw.startCommand("sudo virsh snapshot-create-as --domain " + name + " --name " + name + "_snapshot_fresh");
 	}
 
-	public void restorefromSnapshotFresh(String name) {
+	private void restorefromSnapshotFresh(String name) {
 		bw.startCommand("sudo virsh snapshot-revert " + name + " " + name + "_snapshot_fresh");
 	}
 
-	public void deleteSnapshotFresh(String name) {
+	private void deleteSnapshotFresh(String name) {
 		bw.startCommand("sudo virsh snapshot-delete --domain " + name + " --snapshotname " + name + "_snapshot_fresh");
 	}
 
-	public void createSnapshotCurent(String name) {
+	private void createSnapshotCurent(String name) {
 		bw.startCommand(
 				"sudo virsh snapshot-delete --domain " + name + " --snapshotname " + name + "_snapshot_current");
 		bw.startCommand("sudo virsh snapshot-create-as --domain " + name + " --name " + name + "_snapshot_current");
 		System.out.println("current created");
 	}
 
-	public void restorefromSnapshotCurrent(String name) {
+	private void restorefromSnapshotCurrent(String name) {
 		bw.startCommand("sudo virsh snapshot-revert " + name + " " + name + "_snapshot_current");
 		System.out.println("current restored");
 	}
 
-	public void deleteSnapshotCurrent(String name) {
+	private void deleteSnapshotCurrent(String name) {
 		bw.startCommand(
 				"sudo virsh snapshot-delete --domain " + name + " --snapshotname " + name + "_snapshot_current");
 	}
 
+	@Override
 	public DefaultListModel<String> getOSList() {
 		return bw.listDir("/home/$(whoami)/virsh");
 	}
-	@Override
+
 	public void startSnapShotFrom(String path) {
+		shutdownVM(path);
+		restorefromSnapshotFresh(path);
+		bw.startCommand("sudo virsh start " + path);
+		displayVM(path);
+
+	}
+
+	public void startVM(String name) {
+		shutdownVM(name);
+		restorefromSnapshotCurrent(name);
+		bw.startCommand("sudo virsh start " + name);
+		displayVM(name);
+		createSnapshotCurent(name);
+	}
+
+	@Override
+	public String vmType() {
 		// TODO Auto-generated method stub
-		
+		return "virsh";
 	}
 }

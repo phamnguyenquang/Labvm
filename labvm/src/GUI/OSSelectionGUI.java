@@ -36,6 +36,7 @@ public class OSSelectionGUI {
 	private String OSName = "";
 	private vmHandler vmExecutor;
 	private JList<String> list;
+	private String vmManagerType;
 
 	private SwingWorker<Void, Void> mySwingWorker;
 	private ArrayList<JButton> Btn_list = new ArrayList<JButton>();
@@ -47,6 +48,7 @@ public class OSSelectionGUI {
 		try {
 			linuxCommandExecutor = new CommandExecutor();
 			vmHandler = vmm;
+			vmManagerType = vmm.vmType();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,16 +89,19 @@ public class OSSelectionGUI {
 						 * Non Virsh method, comment accordingly
 						 */
 						String pathStart = path + "/linux.img";
-						vmHandler.startSnapShotFrom(pathStart);
-
-						/*
-						 * virsh method, comment accordingly
-						 */
-//
-//						virshVM.shutdownVM(OSName);
-//						virshVM.restorefromSnapshotFresh(OSName);
-//						virshVM.startVM(OSName);
-//						virshVM.displayVM(OSName);
+						switch (vmManagerType) {
+						case "virsh": {
+							vmHandler.startSnapShotFrom(OSName);
+							break;
+						}
+						case "kvm": {
+							vmHandler.startSnapShotFrom(pathStart);
+							break;
+						}
+						default:{
+							break;
+						}
+						}
 					} else {
 						System.out.println("No chosen");
 					}
@@ -114,21 +119,19 @@ public class OSSelectionGUI {
 					JOptionPane.showMessageDialog(null, "Please select a an OS", "Error", 0);
 				} else {
 					String pathStart = path + "/linux.img";
-
-					/*
-					 * non Virsh method
-					 */
-					vmHandler.startVM(pathStart);
-
-					/*
-					 * Virsh method
-					 */
-
-//					virshVM.shutdownVM(OSName);
-//					virshVM.restorefromSnapshotCurrent(OSName);
-//					virshVM.startVM(OSName);
-//					virshVM.displayVM(OSName);
-//					virshVM.createSnapshotCurent(OSName);
+					switch (vmManagerType) {
+					case "virsh": {
+						vmHandler.startVM(OSName);
+						break;
+					}
+					case "kvm": {
+						vmHandler.startVM(pathStart);
+						break;
+					}
+					default:{
+						break;
+					}
+					}
 				}
 			}
 		});
@@ -189,15 +192,15 @@ public class OSSelectionGUI {
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				OSName = list.getSelectedValue().toString();
 				String path1 = "/home/$(whoami)/virsh/";
-				path = "/home/$(whoami)/virsh/" + '"' + list.getSelectedValue().toString() + '"';
+				path = "/home/$(whoami)/virsh/" + '"' + OSName + '"';
 				OSName = list.getSelectedValue().toString();
 				System.out.println(path);
 				for (int i = 0; i < Btn_list.size(); ++i) {
 					Btn_list.get(i).setEnabled(true);
 				}
-				linuxCommandExecutor
-						.startCommand("cat " + path1 + '"' + list.getSelectedValue().toString() + '"' + "/state");
+				linuxCommandExecutor.startCommand("cat " + path1 + '"' + OSName + '"' + "/state");
 				System.out.println(linuxCommandExecutor.getResult());
 				if (linuxCommandExecutor.getResult().equals("false")) {
 					System.out.println("test success");

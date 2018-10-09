@@ -54,4 +54,10 @@ public class vmHandler extends GeneralVMHandler {
 		return bw.listDir("/home/$(whoami)/virsh");
 	}
 
+	@Override
+	public String vmType() {
+		// TODO Auto-generated method stub
+		return "kvm";
+	}
+
 }
