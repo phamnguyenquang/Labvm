@@ -13,7 +13,9 @@ public class labvm {
 	public static void main(String args[]) throws IOException {
 //		GeneralVMHandler vmHandler = new virshHandler();
 //		new OSSelectionGUI(vmHandler);
-		new XMLReadWrite("/home/quang/virsh/DevOS.xml").replaceDevice("0000:05:02.0", "0000:05:00.0");
+		XMLReadWrite testIO = new XMLReadWrite("/home/quang/virsh/DevOS.xml");
+		testIO.removeHostDevices();
+		testIO.addHostDevice("0000:00:19.0");
 		;
 	}
 }

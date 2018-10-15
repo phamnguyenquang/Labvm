@@ -19,18 +19,18 @@ public class XMLReadWrite {
 		filePath = pathToFile;
 	}
 
-	public void replaceDevice(String oldValue, String newValue) {
+	public void replaceHostDevice(String oldValue, String newValue) {
 		try {
 			String oldDomain = "0x" + oldValue.substring(0, 4);
 			String oldBus = "0x" + oldValue.substring(5, 7);
 			String oldSlot = "0x" + oldValue.substring(8, 10);
 			String oldFunction = "0x" + oldValue.substring(11);
-			
+
 			String domain = "0x" + newValue.substring(0, 4);
 			String bus = "0x" + newValue.substring(5, 7);
 			String slot = "0x" + newValue.substring(8, 10);
 			String function = "0x" + newValue.substring(11);
-			
+
 			System.out.println(domain);
 			System.out.println(bus);
 			System.out.println(slot);
@@ -44,15 +44,15 @@ public class XMLReadWrite {
 			// ---------------------------------------------------
 
 			// Devices--------------------------------------------
-			NodeList devices = root.getElementsByTagName("devices");
+			NodeList devicesNodeList = root.getElementsByTagName("devices");
 
-			NodeList hostdev = ((Element) devices.item(0)).getElementsByTagName("hostdev");
-			NodeList source = ((Element) hostdev.item(0)).getElementsByTagName("source");
-			NodeList address = ((Element) source.item(0)).getElementsByTagName("address");
+			NodeList hostdevNodeList = ((Element) devicesNodeList.item(0)).getElementsByTagName("hostdev");
+			NodeList sourceNodeList = ((Element) hostdevNodeList.item(0)).getElementsByTagName("source");
+			NodeList addressNodeList = ((Element) sourceNodeList.item(0)).getElementsByTagName("address");
 
-			for (int i = 0; i < address.getLength(); ++i) {
+			for (int i = 0; i < addressNodeList.getLength(); ++i) {
 				System.out.println(i);
-				Node addr = address.item(i);
+				Node addr = addressNodeList.item(i);
 				NamedNodeMap adr = addr.getAttributes();
 				Node currentDomain = adr.getNamedItem("domain");
 				Node currentBus = adr.getNamedItem("bus");
@@ -84,49 +84,39 @@ public class XMLReadWrite {
 		}
 	}
 
-	public void AddDevice(String newValue) {
+	public void addHostDevice(String newValue) {
 		try {
 			String domain = "0x" + newValue.substring(0, 4);
 			String bus = "0x" + newValue.substring(5, 7);
 			String slot = "0x" + newValue.substring(8, 10);
 			String function = "0x" + newValue.substring(11);
-			System.out.println(domain);
-			System.out.println(bus);
-			System.out.println(slot);
-			System.out.println(function);
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
-			System.out.println("Root element :" + root.getNodeName());
 			// ---------------------------------------------------
 
 			// Devices--------------------------------------------
-			NodeList devices = root.getElementsByTagName("devices");
+			NodeList devicesNodeList = root.getElementsByTagName("devices");
 
-			NodeList hostdev = ((Element) devices.item(0)).getElementsByTagName("hostdev");
-			NodeList source = ((Element) hostdev.item(0)).getElementsByTagName("source");
-			NodeList address = ((Element) source.item(0)).getElementsByTagName("address");
+			NodeList hostdevNodeList = ((Element) devicesNodeList.item(0)).getElementsByTagName("hostdev");
+			NodeList sourceNodeList = ((Element) hostdevNodeList.item(0)).getElementsByTagName("source");
+			NodeList addressNodeList = ((Element) sourceNodeList.item(0)).getElementsByTagName("address");
 
-			Node addr = address.item(0);
-			Node src = source.item(0);
+			Node addr = addressNodeList.item(0);
+			Node source = sourceNodeList.item(0);
 
 			System.out.println("----------------------------");
 
-			NamedNodeMap adr = addr.getAttributes();
-			Node attr = adr.getNamedItem("bus");
+			Element address = doc.createElement("address");
+			address.setAttribute("domain", domain);
+			address.setAttribute("bus", bus);
+			address.setAttribute("slot", slot);
+			address.setAttribute("function", function);
 
-			attr.setTextContent("0x05");
-
-			Element test = doc.createElement("address");
-			test.setAttribute("domain", domain);
-			test.setAttribute("bus", bus);
-			test.setAttribute("slot", slot);
-			test.setAttribute("function", function);
-
-			src.appendChild(test);
+			source.appendChild(address);
 
 			/*
 			 * Up next, save the file, actual saving
@@ -155,7 +145,6 @@ public class XMLReadWrite {
 			Document doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
-			System.out.println("Root element :" + root.getNodeName());
 			// ---------------------------------------------------
 
 			// Devices--------------------------------------------
@@ -189,5 +178,41 @@ public class XMLReadWrite {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void removeHostDevices() {
+		try {
+			File inputFile = new File(filePath);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(inputFile);
+			// root element------------------------------------------
+			Element root = doc.getDocumentElement();
+			// ---------------------------------------------------
+
+			// Devices--------------------------------------------
+			NodeList devicesList = root.getElementsByTagName("devices");
+
+			NodeList hostdevList = ((Element) devicesList.item(0)).getElementsByTagName("hostdev");
+			NodeList sourceList = ((Element) hostdevList.item(0)).getElementsByTagName("source");
+			Node source = sourceList.item(0);
+			NodeList addressList = ((Element) sourceList.item(0)).getElementsByTagName("address");
+			int length = addressList.getLength();
+			for (int i = length - 1; i >=  0; --i) {
+				source.removeChild(addressList.item(i));
+				System.out.println("1 element removed");
+			}
+			/*
+			 * Up next, save the file, actual saving
+			 */
+			TransformerFactory transformerfactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerfactory.newTransformer();
+			DOMSource domSource = new DOMSource(doc);
+
+			StreamResult streamResult = new StreamResult(new File(filePath));
+			transformer.transform(domSource, streamResult);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
