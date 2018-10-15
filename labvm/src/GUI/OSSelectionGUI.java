@@ -98,7 +98,7 @@ public class OSSelectionGUI {
 							vmHandler.startSnapShotFrom(pathStart);
 							break;
 						}
-						default:{
+						default: {
 							break;
 						}
 						}
@@ -128,7 +128,7 @@ public class OSSelectionGUI {
 						vmHandler.startVM(pathStart);
 						break;
 					}
-					default:{
+					default: {
 						break;
 					}
 					}

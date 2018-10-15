@@ -3,8 +3,11 @@ package Development;
 import java.io.File;
 
 import javax.sound.sampled.*;
+import javax.swing.DefaultListModel;
 
-public class VBoxHandler {
+import BackEnd_VMtypeHandlers.GeneralVMHandler;
+
+public class VBoxHandler extends GeneralVMHandler {
 	public void test() {
 		try {
 			File soundFile = new File("/home/quang/test.wav");
@@ -23,5 +26,29 @@ public class VBoxHandler {
 
 	public VBoxHandler() {
 		test();
+	}
+
+	@Override
+	public void startVM(String name) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startSnapShotFrom(String path) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public DefaultListModel<String> getOSList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String vmType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

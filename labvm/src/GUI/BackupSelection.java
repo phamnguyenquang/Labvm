@@ -28,7 +28,7 @@ public class BackupSelection {
 	private String OSname;
 	private String path;
 	private GeneralVMHandler vmHandler;
-	private JList<String>list;
+	private JList<String> list;
 
 	/**
 	 * Create the UI.
@@ -90,8 +90,22 @@ public class BackupSelection {
 				if (OSname == "" || OSname == null) {
 					JOptionPane.showMessageDialog(null, "Please select an OS", "Error", 0);
 				} else {
+					String type = vmHandler.vmType();
 					String startPath = path + OSname;
-					vmHandler.startVM(startPath);
+					switch (type) {
+					case "kvm": {
+						vmHandler.startVM(startPath);
+						break;
+					}
+					case "virsh": {
+						vmHandler.startVM(OSname);
+						break;
+					}
+					default: {
+						break;
+					}
+					}
+
 				}
 			}
 		});
@@ -100,21 +114,21 @@ public class BackupSelection {
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 5;
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
-		
-				JButton btnTestFunction = new JButton("Back");
-				btnTestFunction.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						frame.dispose();
-						new OSSelectionGUI(vmHandler);
-					}
-				});
-				GridBagConstraints gbc_btnTestFunction = new GridBagConstraints();
-				gbc_btnTestFunction.anchor = GridBagConstraints.WEST;
-				gbc_btnTestFunction.gridwidth = 2;
-				gbc_btnTestFunction.insets = new Insets(0, 0, 5, 5);
-				gbc_btnTestFunction.gridx = 1;
-				gbc_btnTestFunction.gridy = 5;
-				frame.getContentPane().add(btnTestFunction, gbc_btnTestFunction);
+
+		JButton btnTestFunction = new JButton("Back");
+		btnTestFunction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				new OSSelectionGUI(vmHandler);
+			}
+		});
+		GridBagConstraints gbc_btnTestFunction = new GridBagConstraints();
+		gbc_btnTestFunction.anchor = GridBagConstraints.WEST;
+		gbc_btnTestFunction.gridwidth = 2;
+		gbc_btnTestFunction.insets = new Insets(0, 0, 5, 5);
+		gbc_btnTestFunction.gridx = 1;
+		gbc_btnTestFunction.gridy = 5;
+		frame.getContentPane().add(btnTestFunction, gbc_btnTestFunction);
 		frame.setSize(1366, 768);
 		// frame.pack();
 		frame.setVisible(true);
