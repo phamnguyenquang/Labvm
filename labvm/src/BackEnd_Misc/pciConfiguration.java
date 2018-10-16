@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import XMLhandler.XMLReadWrite;
+
 /*This section of the code reads the PCI addresses of the Ethernet and Wireless card from an existing file
  * If the file does not exist, create one
  * a bit "unsafe" method from string processing, this can be a room for improvement
@@ -15,12 +17,21 @@ public class pciConfiguration {
 	private ArrayList<String> pciEthernetList = new ArrayList<String>();
 	private CommandExecutor bw = new CommandExecutor();
 	private String vfioOperation;
+	private XMLReadWrite xmlHandler;
 
 	public pciConfiguration() throws IOException {
 		bw.startCommand("pwd");
 		String config = bw.getResult();
 		GenerateConfigFile(config + "/pciAddressList");
 		readConfigFile(config + "/pciAddressList");
+	}
+
+	public pciConfiguration(XMLReadWrite xml) throws IOException {
+		bw.startCommand("pwd");
+		String config = bw.getResult();
+		GenerateConfigFile(config + "/pciAddressList");
+		readConfigFile(config + "/pciAddressList");
+		xmlHandler = xml;
 	}
 
 	private void GenerateConfigFile(String path) {
@@ -80,6 +91,13 @@ public class pciConfiguration {
 		System.out.println(vfioOperation);
 		bw.startCommand(vfioOperation);
 		bw.startCommand("sudo systemctl restart networking");
+	}
+
+	public void writeAddresses() {
+		xmlHandler.removeHostDevices();
+		for (int i = 0; i < PCISlotNumber(); ++i) {
+			xmlHandler.addHostDevice(pciEthernetList.get(i));
+		}
 	}
 
 }
