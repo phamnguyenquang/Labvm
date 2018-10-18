@@ -34,11 +34,9 @@ public class OSSelectionGUI {
 	private CommandExecutor linuxCommandExecutor;
 	private String path = "";
 	private String OSName = "";
-	private vmHandler vmExecutor;
 	private JList<String> list;
 	private String vmManagerType;
 
-	private SwingWorker<Void, Void> mySwingWorker;
 	private ArrayList<JButton> Btn_list = new ArrayList<JButton>();
 	private DefaultListModel<String> OSImageList = new DefaultListModel<String>();
 	private ArrayList<JButton> Btn_list_special = new ArrayList<JButton>();

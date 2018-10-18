@@ -1,5 +1,7 @@
 package BackEnd_VMtypeHandlers;
 
+import java.io.IOException;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -11,9 +13,14 @@ public class vmHandler extends GeneralVMHandler {
 	private pciConfiguration pci;
 	private String pciAddressesComm;
 
-	public vmHandler(pciConfiguration pciHandler, CommandExecutor cmd) {
-		pci = pciHandler;
-		bw = cmd;
+	public vmHandler() {
+		try {
+			pci = new pciConfiguration();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bw = new CommandExecutor();
 	}
 
 	public void startVM(String path) {

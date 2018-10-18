@@ -94,10 +94,16 @@ public class pciConfiguration {
 	}
 
 	public void writeAddresses() {
-		xmlHandler.removeHostDevices();
-		for (int i = 0; i < PCISlotNumber(); ++i) {
-			xmlHandler.addHostDevice(pciEthernetList.get(i));
+		if (xmlHandler != null) {
+			xmlHandler.removeHostDevices();
+			for (int i = 0; i < PCISlotNumber(); ++i) {
+				xmlHandler.addHostDevice(pciEthernetList.get(i));
+			}
+		}
+		else {
+			System.out.println("cannot write message, plz restate");
 		}
 	}
+	
 
 }

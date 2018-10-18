@@ -1,8 +1,12 @@
 package BackEnd_VMtypeHandlers;
 
+import java.io.IOException;
+
 import javax.swing.DefaultListModel;
 
 import BackEnd_Misc.CommandExecutor;
+import BackEnd_Misc.pciConfiguration;
+import XMLhandler.XMLReadWrite;
 
 public class virshHandler extends GeneralVMHandler {
 	private CommandExecutor bw;
@@ -69,6 +73,19 @@ public class virshHandler extends GeneralVMHandler {
 	public void startVM(String name) {
 		shutdownVM(name);
 		restorefromSnapshotCurrent(name);
+		String user = bw.startCommand("whoami");
+		String path = "/home/" + user + "/virsh/" + name + "/" + name + ".xml";
+		XMLReadWrite defFile = new XMLReadWrite(path);
+		bw.startCommand("sudo virsh undefine " + name);
+		pciConfiguration pci;
+		try {
+			pci = new pciConfiguration(defFile);
+			pci.writeAddresses();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		defineVM(path);
 		bw.startCommand("sudo virsh start " + name);
 		displayVM(name);
 		createSnapshotCurent(name);

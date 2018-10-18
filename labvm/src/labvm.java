@@ -11,11 +11,10 @@ import XMLhandler.XMLReadWrite;
 public class labvm {
 
 	public static void main(String args[]) throws IOException {
-//		GeneralVMHandler vmHandler = new virshHandler();
-//		new OSSelectionGUI(vmHandler);
-		XMLReadWrite testIO = new XMLReadWrite("/home/quang/virsh/DevOS.xml");
-		testIO.removeHostDevices();
-		testIO.addHostDevice("0000:00:19.0");
-		;
+		GeneralVMHandler vmHandler = new vmHandler();
+		new OSSelectionGUI(vmHandler);
+//		XMLReadWrite testIO = new XMLReadWrite("/home/quang/virsh/DevOS.xml");
+//		testIO.removeHostDevices();
+//		testIO.addHostDevice("0000:00:19.0");
 	}
 }
