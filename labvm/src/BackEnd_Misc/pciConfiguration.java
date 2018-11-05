@@ -22,6 +22,7 @@ public class pciConfiguration {
 	public pciConfiguration() throws IOException {
 		bw.startCommand("pwd");
 		String config = bw.getResult();
+		System.out.println("resut "+config);
 		GenerateConfigFile(config + "/pciAddressList");
 		readConfigFile(config + "/pciAddressList");
 	}

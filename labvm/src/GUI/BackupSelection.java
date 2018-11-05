@@ -56,7 +56,7 @@ public class BackupSelection {
 		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
-		linuxCommandHandler.listDir(path);
+		linuxCommandHandler.listOS(path);
 		System.out.println(path);
 		list = new JList<String>(linuxCommandHandler.getOutput());
 		list.addMouseListener(new MouseAdapter() {

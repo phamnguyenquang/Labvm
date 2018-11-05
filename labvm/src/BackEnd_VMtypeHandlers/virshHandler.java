@@ -59,7 +59,7 @@ public class virshHandler extends GeneralVMHandler {
 
 	@Override
 	public DefaultListModel<String> getOSList() {
-		return bw.listDir("/home/$(whoami)/virsh");
+		return bw.listOS("/home/$(whoami)/virsh");
 	}
 
 	public void startSnapShotFrom(String path) {

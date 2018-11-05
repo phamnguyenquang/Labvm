@@ -13,8 +13,16 @@ public class labvm {
 	public static void main(String args[]) throws IOException {
 		GeneralVMHandler vmHandler = new vmHandler();
 		new OSSelectionGUI(vmHandler);
-//		XMLReadWrite testIO = new XMLReadWrite("/home/quang/virsh/DevOS.xml");
+//		XMLReadWrite testIO = new XMLReadWrite("/home/quang/DevOS.xml");
+//		
+//		testIO.removeInterface();
+//		testIO.addInterface("enp3s0");
+
 //		testIO.removeHostDevices();
-//		testIO.addHostDevice("0000:00:19.0");
+//		testIO.addHostNode();
+//		testIO.addHostDevice("0000:00:20.0");
+//		
+//		CommandExecutor comd = new CommandExecutor();
+//		comd.startCommand("ls /home/quang");
 	}
 }

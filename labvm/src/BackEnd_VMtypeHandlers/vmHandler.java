@@ -58,7 +58,7 @@ public class vmHandler extends GeneralVMHandler {
 
 	public DefaultListModel<String> getOSList() {
 		System.out.println("Getting OS");
-		return bw.listDir("/home/$(whoami)/virsh");
+		return bw.listOS("/home/$(whoami)/virsh");
 	}
 
 	@Override

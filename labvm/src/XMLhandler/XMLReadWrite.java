@@ -84,6 +84,41 @@ public class XMLReadWrite {
 		}
 	}
 
+	public void addHostNode() {
+		try {
+			File inputFile = new File(filePath);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(inputFile);
+			// root element------------------------------------------
+			Element root = doc.getDocumentElement();
+			// ---------------------------------------------------
+
+			// Devices--------------------------------------------
+
+			NodeList devicesNodeList = root.getElementsByTagName("devices");
+			Node hostdevNodeList = devicesNodeList.item(0);
+			Element address = doc.createElement("hostdev");
+			Element source = doc.createElement("source");
+
+			address.setAttribute("managed", "yes");
+			address.appendChild(source);
+			hostdevNodeList.appendChild(address);
+			/*
+			 * Up next, save the file, actual saving
+			 */
+			TransformerFactory transformerfactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerfactory.newTransformer();
+			DOMSource domSource = new DOMSource(doc);
+
+			StreamResult streamResult = new StreamResult(new File(filePath));
+			transformer.transform(domSource, streamResult);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void addHostDevice(String newValue) {
 		try {
 			String domain = "0x" + newValue.substring(0, 4);
@@ -194,14 +229,86 @@ public class XMLReadWrite {
 			NodeList devicesList = root.getElementsByTagName("devices");
 
 			NodeList hostdevList = ((Element) devicesList.item(0)).getElementsByTagName("hostdev");
-			NodeList sourceList = ((Element) hostdevList.item(0)).getElementsByTagName("source");
-			Node source = sourceList.item(0);
-			NodeList addressList = ((Element) sourceList.item(0)).getElementsByTagName("address");
-			int length = addressList.getLength();
-			for (int i = length - 1; i >=  0; --i) {
-				source.removeChild(addressList.item(i));
-				System.out.println("1 element removed");
+
+			Node hostdev = hostdevList.item(0);
+			Node device = devicesList.item(0);
+			device.removeChild(hostdev);
+			/*
+			 * Up next, save the file, actual saving
+			 */
+			TransformerFactory transformerfactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerfactory.newTransformer();
+			DOMSource domSource = new DOMSource(doc);
+
+			StreamResult streamResult = new StreamResult(new File(filePath));
+			transformer.transform(domSource, streamResult);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addInterface(String name) {
+		try {
+			File inputFile = new File(filePath);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(inputFile);
+			// root element------------------------------------------
+			Element root = doc.getDocumentElement();
+			// ---------------------------------------------------
+
+			// Devices--------------------------------------------
+			NodeList devicesNodeList = root.getElementsByTagName("devices");
+			Node hostdevNodeList = devicesNodeList.item(0);
+
+			Element iface = doc.createElement("interface");
+			iface.setAttribute("type", "direct");
+
+			Element source = doc.createElement("source");
+			source.setAttribute("device", name);
+			source.setAttribute("mode", "passthrough");
+
+			iface.appendChild(source);
+			hostdevNodeList.appendChild(iface);
+			/*
+			 * Up next, save the file, actual saving
+			 */
+			TransformerFactory transformerfactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerfactory.newTransformer();
+			DOMSource domSource = new DOMSource(doc);
+
+			StreamResult streamResult = new StreamResult(new File(filePath));
+			transformer.transform(domSource, streamResult);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void removeInterface() {
+		try {
+			File inputFile = new File(filePath);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(inputFile);
+			// root element------------------------------------------
+			Element root = doc.getDocumentElement();
+			// ---------------------------------------------------
+
+			// Devices--------------------------------------------
+			NodeList devicesList = root.getElementsByTagName("devices");
+
+			NodeList interfaceList = ((Element) devicesList.item(0)).getElementsByTagName("interface");
+
+			int length = interfaceList.getLength();
+			
+			System.out.println(length);
+
+			Node device = devicesList.item(0);
+
+			for (int i = 0; i < length; ++i) {
+				device.removeChild(interfaceList.item(i));
 			}
+
 			/*
 			 * Up next, save the file, actual saving
 			 */
