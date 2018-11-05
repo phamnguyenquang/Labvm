@@ -79,7 +79,7 @@ public class virshHandler extends GeneralVMHandler {
 		bw.startCommand("sudo virsh undefine " + name);
 		pciConfiguration pci;
 		try {
-			pci = new pciConfiguration(defFile);
+			pci = new pciConfiguration(path);
 			pci.writeAddresses();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
@@ -74,6 +75,7 @@ public class XMLReadWrite {
 			 */
 			TransformerFactory transformerfactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerfactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			DOMSource domSource = new DOMSource(doc);
 
 			StreamResult streamResult = new StreamResult(new File(filePath));
@@ -300,7 +302,7 @@ public class XMLReadWrite {
 			NodeList interfaceList = ((Element) devicesList.item(0)).getElementsByTagName("interface");
 
 			int length = interfaceList.getLength();
-			
+
 			System.out.println(length);
 
 			Node device = devicesList.item(0);

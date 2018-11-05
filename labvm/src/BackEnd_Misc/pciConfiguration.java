@@ -18,6 +18,7 @@ public class pciConfiguration {
 	private CommandExecutor bw = new CommandExecutor();
 	private String vfioOperation;
 	private XMLReadWrite xmlHandler;
+	private ArrayList<String> interfaceList = new ArrayList<String>();
 
 	public pciConfiguration() throws IOException {
 		bw.startCommand("pwd");
@@ -27,12 +28,12 @@ public class pciConfiguration {
 		readConfigFile(config + "/pciAddressList");
 	}
 
-	public pciConfiguration(XMLReadWrite xml) throws IOException {
+	public pciConfiguration(String pathToXml) throws IOException {
 		bw.startCommand("pwd");
 		String config = bw.getResult();
 		GenerateConfigFile(config + "/pciAddressList");
 		readConfigFile(config + "/pciAddressList");
-		xmlHandler = xml;
+		xmlHandler = new XMLReadWrite(pathToXml);
 	}
 
 	private void GenerateConfigFile(String path) {
@@ -104,6 +105,20 @@ public class pciConfiguration {
 		else {
 			System.out.println("cannot write message, plz restate");
 		}
+	}
+	public void writeInterfaceToXML() {
+		interfaceList.clear();
+		interfaceList = bw.listDir("/sys/class/net");
+		for (int i = 0; i < interfaceList.size(); ++i) {
+			if (interfaceList.get(i).contains("enp") || interfaceList.get(i).contains("en")) {
+				xmlHandler.addInterface(interfaceList.get(i));
+			}
+		}
+	}
+
+	public void removeInterfaceFromXML() {
+		xmlHandler.removeInterface();
+
 	}
 	
 
