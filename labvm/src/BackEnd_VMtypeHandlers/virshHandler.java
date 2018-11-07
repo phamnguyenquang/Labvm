@@ -10,10 +10,14 @@ import XMLhandler.XMLReadWrite;
 
 public class virshHandler extends GeneralVMHandler {
 	private CommandExecutor bw;
+	private XMLReadWrite xml;
+	private String user;
 
 	public virshHandler() {
 		bw = new CommandExecutor();
 		bw.startCommand("sudo virsh connect qemu:///system");
+		user = bw.startCommand("whoami");
+		xml = new XMLReadWrite("/home/quang/virsh/.config/DefOS.xml");
 	}
 
 	private void displayVM(String name) {
@@ -27,36 +31,6 @@ public class virshHandler extends GeneralVMHandler {
 	private void defineVM(String pathToXml) {
 		bw.startCommand("sudo virsh define " + pathToXml);
 	}
-
-	private void createSnapshotFresh(String name) {
-		bw.startCommand("sudo virsh snapshot-create-as --domain " + name + " --name " + name + "_snapshot_fresh");
-	}
-
-	private void restorefromSnapshotFresh(String name) {
-		bw.startCommand("sudo virsh snapshot-revert " + name + " " + name + "_snapshot_fresh");
-	}
-
-	private void deleteSnapshotFresh(String name) {
-		bw.startCommand("sudo virsh snapshot-delete --domain " + name + " --snapshotname " + name + "_snapshot_fresh");
-	}
-
-	private void createSnapshotCurent(String name) {
-		bw.startCommand(
-				"sudo virsh snapshot-delete --domain " + name + " --snapshotname " + name + "_snapshot_current");
-		bw.startCommand("sudo virsh snapshot-create-as --domain " + name + " --name " + name + "_snapshot_current");
-		System.out.println("current created");
-	}
-
-	private void restorefromSnapshotCurrent(String name) {
-		bw.startCommand("sudo virsh snapshot-revert " + name + " " + name + "_snapshot_current");
-		System.out.println("current restored");
-	}
-
-	private void deleteSnapshotCurrent(String name) {
-		bw.startCommand(
-				"sudo virsh snapshot-delete --domain " + name + " --snapshotname " + name + "_snapshot_current");
-	}
-
 	@Override
 	public DefaultListModel<String> getOSList() {
 		return bw.listOS("/home/$(whoami)/virsh");
@@ -64,7 +38,6 @@ public class virshHandler extends GeneralVMHandler {
 
 	public void startSnapShotFrom(String path) {
 		shutdownVM(path);
-		restorefromSnapshotFresh(path);
 		bw.startCommand("sudo virsh start " + path);
 		displayVM(path);
 
@@ -72,15 +45,16 @@ public class virshHandler extends GeneralVMHandler {
 
 	public void startVM(String name) {
 		shutdownVM(name);
-		restorefromSnapshotCurrent(name);
-		String user = bw.startCommand("whoami");
-		String path = "/home/" + user + "/virsh/" + name + "/" + name + ".xml";
-		XMLReadWrite defFile = new XMLReadWrite(path);
 		bw.startCommand("sudo virsh undefine " + name);
+		String user = bw.startCommand("whoami");
+		String path = "/home/quang/virsh/.config/DefOS.xml";
 		pciConfiguration pci;
 		try {
 			pci = new pciConfiguration(path);
-			pci.writeAddresses();
+			pci.removeInterfaceFromXML();
+			pci.writeInterfaceToXML();
+			pci.setInterfacesDown();
+			xml.modifyDisk("/home/quang/virsh/"+name+"/linux.img");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,7 +62,7 @@ public class virshHandler extends GeneralVMHandler {
 		defineVM(path);
 		bw.startCommand("sudo virsh start " + name);
 		displayVM(name);
-		createSnapshotCurent(name);
+//		createSnapshotCurent(name);
 	}
 
 	@Override

@@ -22,6 +22,8 @@ public class pciConfiguration {
 
 	public pciConfiguration() throws IOException {
 		bw.startCommand("pwd");
+		interfaceList.clear();
+		interfaceList = bw.listDir("/sys/class/net");
 		String config = bw.getResult();
 		System.out.println("resut "+config);
 		GenerateConfigFile(config + "/pciAddressList");
@@ -30,6 +32,8 @@ public class pciConfiguration {
 
 	public pciConfiguration(String pathToXml) throws IOException {
 		bw.startCommand("pwd");
+		interfaceList.clear();
+		interfaceList = bw.listDir("/sys/class/net");
 		String config = bw.getResult();
 		GenerateConfigFile(config + "/pciAddressList");
 		readConfigFile(config + "/pciAddressList");
@@ -107,8 +111,7 @@ public class pciConfiguration {
 		}
 	}
 	public void writeInterfaceToXML() {
-		interfaceList.clear();
-		interfaceList = bw.listDir("/sys/class/net");
+		xmlHandler.removeHostDevices();
 		for (int i = 0; i < interfaceList.size(); ++i) {
 			if (interfaceList.get(i).contains("enp") || interfaceList.get(i).contains("en")) {
 				xmlHandler.addInterface(interfaceList.get(i));
@@ -119,6 +122,16 @@ public class pciConfiguration {
 	public void removeInterfaceFromXML() {
 		xmlHandler.removeInterface();
 
+	}
+	public void setInterfacesDown()
+	{
+		for(int i=0;i<interfaceList.size();++i)
+		{
+			if(interfaceList.get(i).contains("en"))
+			{
+				bw.startCommand("sudo ifconfig "+ interfaceList.get(i) + " down");
+			}
+		}
 	}
 	
 

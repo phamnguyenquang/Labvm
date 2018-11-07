@@ -75,47 +75,10 @@ public class XMLReadWrite {
 			 */
 			TransformerFactory transformerfactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerfactory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			DOMSource domSource = new DOMSource(doc);
 
 			StreamResult streamResult = new StreamResult(new File(filePath));
 			transformer.transform(domSource, streamResult);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void addHostNode() {
-		try {
-			File inputFile = new File(filePath);
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
-			// root element------------------------------------------
-			Element root = doc.getDocumentElement();
-			// ---------------------------------------------------
-
-			// Devices--------------------------------------------
-
-			NodeList devicesNodeList = root.getElementsByTagName("devices");
-			Node hostdevNodeList = devicesNodeList.item(0);
-			Element address = doc.createElement("hostdev");
-			Element source = doc.createElement("source");
-
-			address.setAttribute("managed", "yes");
-			address.appendChild(source);
-			hostdevNodeList.appendChild(address);
-			/*
-			 * Up next, save the file, actual saving
-			 */
-			TransformerFactory transformerfactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerfactory.newTransformer();
-			DOMSource domSource = new DOMSource(doc);
-
-			StreamResult streamResult = new StreamResult(new File(filePath));
-			transformer.transform(domSource, streamResult);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -137,15 +100,17 @@ public class XMLReadWrite {
 
 			// Devices--------------------------------------------
 			NodeList devicesNodeList = root.getElementsByTagName("devices");
+			Node deviceNode = devicesNodeList.item(0);
 
-			NodeList hostdevNodeList = ((Element) devicesNodeList.item(0)).getElementsByTagName("hostdev");
-			NodeList sourceNodeList = ((Element) hostdevNodeList.item(0)).getElementsByTagName("source");
-			NodeList addressNodeList = ((Element) sourceNodeList.item(0)).getElementsByTagName("address");
+			Element hostdev = doc.createElement("hostdev");
+			hostdev.setAttribute("managed", "yes");
+			hostdev.setAttribute("mode", "subsystem");
+			hostdev.setAttribute("type", "pci");
 
-			Node addr = addressNodeList.item(0);
-			Node source = sourceNodeList.item(0);
+			Element driver = doc.createElement("driver");
+			driver.setAttribute("name", "vfio");
 
-			System.out.println("----------------------------");
+			Element source = doc.createElement("source");
 
 			Element address = doc.createElement("address");
 			address.setAttribute("domain", domain);
@@ -153,7 +118,12 @@ public class XMLReadWrite {
 			address.setAttribute("slot", slot);
 			address.setAttribute("function", function);
 
+			System.out.println("----------------------------");
+
 			source.appendChild(address);
+			driver.appendChild(source);
+			hostdev.appendChild(driver);
+			deviceNode.appendChild(hostdev);
 
 			/*
 			 * Up next, save the file, actual saving
@@ -229,12 +199,14 @@ public class XMLReadWrite {
 
 			// Devices--------------------------------------------
 			NodeList devicesList = root.getElementsByTagName("devices");
+			Node device = devicesList.item(0);
 
 			NodeList hostdevList = ((Element) devicesList.item(0)).getElementsByTagName("hostdev");
-
-			Node hostdev = hostdevList.item(0);
-			Node device = devicesList.item(0);
-			device.removeChild(hostdev);
+			int count = hostdevList.getLength();
+			for (int i = 0; i < count; ++i) {
+				device.removeChild(hostdevList.item(i));
+			}
+			;
 			/*
 			 * Up next, save the file, actual saving
 			 */
@@ -267,7 +239,7 @@ public class XMLReadWrite {
 			iface.setAttribute("type", "direct");
 
 			Element source = doc.createElement("source");
-			source.setAttribute("device", name);
+			source.setAttribute("dev", name);
 			source.setAttribute("mode", "passthrough");
 
 			iface.appendChild(source);
@@ -307,8 +279,10 @@ public class XMLReadWrite {
 
 			Node device = devicesList.item(0);
 
-			for (int i = 0; i < length; ++i) {
+			for (int i = length -1 ; i >= 0; --i) {
+				System.out.println(i);
 				device.removeChild(interfaceList.item(i));
+				System.out.println("done");
 			}
 
 			/*
@@ -321,6 +295,39 @@ public class XMLReadWrite {
 			StreamResult streamResult = new StreamResult(new File(filePath));
 			transformer.transform(domSource, streamResult);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void modifyDisk(String path)
+	{
+		try {
+			File inputFile = new File(filePath);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(inputFile);
+			// root element------------------------------------------
+			Element root = doc.getDocumentElement();
+			NodeList devicesNodeList = root.getElementsByTagName("devices");
+
+			
+			// ---------------------------------------------------
+
+			// Devices--------------------------------------------
+			Node diskNodeList = ((Element) devicesNodeList.item(0)).getElementsByTagName("disk").item(0);
+			Node source = ((Element)diskNodeList).getElementsByTagName("source").item(0);
+			NamedNodeMap attr = source.getAttributes();
+			Node file = attr.getNamedItem("file");
+			file.setTextContent(path);
+			TransformerFactory transformerfactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerfactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			DOMSource domSource = new DOMSource(doc);
+
+			StreamResult streamResult = new StreamResult(new File(filePath));
+			transformer.transform(domSource, streamResult);
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
