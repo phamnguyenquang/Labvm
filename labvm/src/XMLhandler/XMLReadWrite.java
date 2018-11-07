@@ -121,8 +121,8 @@ public class XMLReadWrite {
 			System.out.println("----------------------------");
 
 			source.appendChild(address);
-			driver.appendChild(source);
 			hostdev.appendChild(driver);
+			hostdev.appendChild(source);
 			deviceNode.appendChild(hostdev);
 
 			/*

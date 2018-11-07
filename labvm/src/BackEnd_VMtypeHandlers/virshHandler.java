@@ -55,6 +55,8 @@ public class virshHandler extends GeneralVMHandler {
 			pci.writeInterfaceToXML();
 			pci.setInterfacesDown();
 			xml.modifyDisk("/home/quang/virsh/"+name+"/linux.img");
+			xml.removeHostDevices();
+			xml.addHostDevice("0000:06:00.0");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
