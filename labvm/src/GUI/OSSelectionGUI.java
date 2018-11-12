@@ -89,7 +89,7 @@ public class OSSelectionGUI {
 						String pathStart = path + "/linux.img";
 						switch (vmManagerType) {
 						case "virsh": {
-							vmHandler.startVM(OSName);
+							vmHandler.startSnapShotFrom(OSName);
 							break;
 						}
 						case "kvm": {
