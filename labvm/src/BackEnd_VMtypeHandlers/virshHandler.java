@@ -12,6 +12,7 @@ public class virshHandler extends GeneralVMHandler {
 	private CommandExecutor bw;
 	private XMLReadWrite xml;
 	private String user;
+	private String path;
 
 	public virshHandler() {
 		bw = new CommandExecutor();

@@ -12,6 +12,7 @@ public class vmHandler extends GeneralVMHandler {
 	private CommandExecutor bw;
 	private pciConfiguration pci;
 	private String pciAddressesComm;
+	private String path;
 
 	public vmHandler() {
 		try {

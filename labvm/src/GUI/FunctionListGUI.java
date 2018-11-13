@@ -72,10 +72,13 @@ public class FunctionListGUI {
 					break;
 				}
 				case "Backup Selection": {
+					linuxCommandExecutor.startCommand("cat " + path + "/state");
+					String result = linuxCommandExecutor.getResult();
+					System.out.println("path:" + path);
 					if (path == "" || path == null) {
 						System.out.println("Please select a user");
 						JOptionPane.showMessageDialog(null, "Please select a user", "Error", 0);
-					} else if (linuxCommandExecutor.startCommand("cat " + path + "/state").equals("false")) {
+					} else if (result.equals("false")) {
 						JOptionPane.showMessageDialog(null,
 								"Back up options is not available for this image \n Please contact the administrator for further information",
 								"Error", 1);
