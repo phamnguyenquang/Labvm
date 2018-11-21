@@ -19,7 +19,7 @@ public class virshHandler extends GeneralVMHandler {
 		bw.startCommand("sudo virsh connect qemu:///system");
 		bw.startCommand("whoami");
 		user = bw.getResult();
-		xml = new XMLReadWrite("/home/quang/virsh/.config/DefOS.xml");
+		xml = new XMLReadWrite("/home/"+user+"/virsh/.config/DefOS.xml");
 	}
 
 	private void displayVM(String name) {
