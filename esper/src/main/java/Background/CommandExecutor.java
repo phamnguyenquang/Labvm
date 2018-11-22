@@ -23,7 +23,7 @@ public class CommandExecutor {
 
 	public String startCommand(String cmd) {
 		String[] cmd1 = { "/bin/bash", "-c", cmd };
-		System.out.println(cmd);
+//		System.out.println(cmd);
 		try {
 			pr = new ProcessBuilder(cmd1);
 			pr.redirectErrorStream(true);
@@ -32,12 +32,12 @@ public class CommandExecutor {
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 			while ((commandOutputReader = stdInput.readLine()) != null) {
-				System.out.println(commandOutputReader);
+//				System.out.println(commandOutputReader);
 				commandOutputResult = commandOutputReader;
 
 			}
 			while ((commandErrorReader = stdError.readLine()) != null) {
-				System.out.println(commandErrorReader);
+//				System.out.println(commandErrorReader);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -59,7 +59,7 @@ public class CommandExecutor {
 				listResult.add(commandOutputReader);
 			}
 			while ((commandErrorReader = stdError.readLine()) != null) {
-				System.out.println(commandErrorReader);
+//				System.out.println(commandErrorReader);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class CommandExecutor {
 				OSImageList.addElement(commandOutputReader);
 			}
 			while ((commandErrorReader = stdError.readLine()) != null) {
-				System.out.println(commandErrorReader);
+//				System.out.println(commandErrorReader);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
