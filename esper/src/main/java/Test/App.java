@@ -11,6 +11,7 @@ import com.espertech.esper.client.scopetest.SupportSubscriber;
 import LogReader.LogCombi;
 import LogReader.LogEvent;
 import LogReader.LogProcess;
+import LogReader.Logtransform;
 
 public class App {
 
@@ -24,10 +25,12 @@ public class App {
 
 		LogCombi logCombination = new LogCombi();
 		int i = logCombination.authLength();
+		LogProcess lp = new LogProcess();
 
 		EPServiceProvider engine = EPServiceProviderManager.getDefaultProvider();
 		EPAdministrator admin = engine.getEPAdministrator();
 		engine.getEPAdministrator().getConfiguration().addEventType(LogProcess.class);
+		engine.getEPAdministrator().getConfiguration().addEventType(Logtransform.class);
 
 		String schema = "create context Test start @now end after 10 sec";
 
@@ -38,19 +41,19 @@ public class App {
 
 		SupportSubscriber subscriber = new SupportSubscriber();
 
-		EPStatement log2Statement = admin.createEPL(log2);
-		EPStatement schemaCreate = engine.getEPAdministrator().createEPL(schema);
-		EPStatement logStatement = engine.getEPAdministrator().createEPL(log);
+		EPStatement log2Statement = admin.createEPL(lp.getStatement());
+//		EPStatement schemaCreate = engine.getEPAdministrator().createEPL(schema);
+//		EPStatement logStatement = engine.getEPAdministrator().createEPL(log);
 
-		log2Statement.setSubscriber(LogProcess.class);
+		log2Statement.setSubscriber(lp);
 
-		log2Statement.addListener((newData, oldData) -> {
-			String test = (String) newData[0].get("authLine");
-			String test1 = (String) newData[0].get("sysLine");
-			System.out.println(test);
-		});
+//		log2Statement.addListener((newData, oldData) -> {
+//			String test = (String) newData[0].get("authLine");
+//			String test1 = (String) newData[0].get("sysLine");
+//			System.out.println(test);
+//		});
 		for (int i1 = 0; i1 < i; ++i1) {
-			engine.getEPRuntime().sendEvent(new LogProcess(logCombination, i1));
+			engine.getEPRuntime().sendEvent(new Logtransform(logCombination, i1));
 		}
 
 	}
