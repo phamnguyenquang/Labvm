@@ -10,7 +10,7 @@ import com.espertech.esper.client.scopetest.SupportSubscriber;
 
 import LogReader.LogCombi;
 import LogReader.LogEvent;
-import LogReader.LogProcess;
+import LogReader.SSHAttackEvent;
 import LogReader.Logtransform;
 
 public class App {
@@ -25,19 +25,19 @@ public class App {
 
 		LogCombi logCombination = new LogCombi();
 		int i = logCombination.authLength();
-		LogProcess lp = new LogProcess();
+		SSHAttackEvent lp = new SSHAttackEvent();
 
 		EPServiceProvider engine = EPServiceProviderManager.getDefaultProvider();
 		EPAdministrator admin = engine.getEPAdministrator();
-		engine.getEPAdministrator().getConfiguration().addEventType(LogProcess.class);
+		engine.getEPAdministrator().getConfiguration().addEventType(SSHAttackEvent.class);
 		engine.getEPAdministrator().getConfiguration().addEventType(Logtransform.class);
 
-		String schema = "create context Test start @now end after 10 sec";
-
-		String log = "context Test select authLine from LogProcess where authLine.contains('root')";
-
-		String log2 = "select * from LogProcess match_recognize( "
-				+ "measures A as LogProcess1, B as LogProcess2 pattern (A B) define A as A.authLine.contains('ssh'), B as B.authLine.contains('ssh'))";
+//		String schema = "create context Test start @now end after 10 sec";
+//
+//		String log = "context Test select authLine from LogProcess where authLine.contains('root')";
+//
+//		String log2 = "select * from LogProcess match_recognize( "
+//				+ "measures A as LogProcess1, B as LogProcess2 pattern (A B) define A as A.authLine.contains('ssh'), B as B.authLine.contains('ssh'))";
 
 		SupportSubscriber subscriber = new SupportSubscriber();
 

@@ -3,7 +3,7 @@ package LogReader;
 import java.util.Map;
 
 
-public class LogProcess {
+public class SSHAttackEvent {
 	
 	public String getStatement()
 	{
@@ -13,11 +13,11 @@ public class LogProcess {
 	}
 	public void update(Map<String, Logtransform>Eventmap)
 	{
-		Logtransform Logtransform1 = (Logtransform) Eventmap.get("Logtransform");
-		Logtransform Logtransform2 = (Logtransform) Eventmap.get("Logtransform");
+		Logtransform Logtransform1 = (Logtransform) Eventmap.get("Logtransform1");
+		Logtransform Logtransform2 = (Logtransform) Eventmap.get("Logtransform2");
 		
 		StringBuffer sb= new StringBuffer();
-		sb.append("attack detected");
+		sb.append("ssh attack detected");
 		System.out.println(sb.toString());
 	}
 }

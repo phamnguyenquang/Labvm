@@ -7,6 +7,7 @@ public class LogCombi {
 	private ArrayList<String> sys = (new LogEvent("/var/log/syslog")).getContent();
 
 	public LogCombi() {
+		System.out.println("log combi initiated");
 	}
 
 	public String authLine(int i) {
