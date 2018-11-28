@@ -13,8 +13,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
 
+import BackEnd_Misc.CommandExecutor;
+
 public class XMLReadWrite {
 	private String filePath;
+	private CommandExecutor linuxCommandExecutor = new CommandExecutor();
 
 	public XMLReadWrite(String pathToFile) {
 		filePath = pathToFile;
@@ -238,10 +241,16 @@ public class XMLReadWrite {
 			Element iface = doc.createElement("interface");
 			iface.setAttribute("type", "direct");
 
+			Element mac = doc.createElement("mac");
+			linuxCommandExecutor.startCommand("sudo cat /sys/class/net/" + name + "/address");
+			String macaddr = linuxCommandExecutor.getResult();
+			mac.setAttribute("address", macaddr);
+
 			Element source = doc.createElement("source");
 			source.setAttribute("dev", name);
 			source.setAttribute("mode", "passthrough");
 
+			iface.appendChild(mac);
 			iface.appendChild(source);
 			hostdevNodeList.appendChild(iface);
 			/*
@@ -279,7 +288,7 @@ public class XMLReadWrite {
 
 			Node device = devicesList.item(0);
 
-			for (int i = length -1 ; i >= 0; --i) {
+			for (int i = length - 1; i >= 0; --i) {
 				System.out.println(i);
 				device.removeChild(interfaceList.item(i));
 				System.out.println("done");
@@ -298,8 +307,8 @@ public class XMLReadWrite {
 			e.printStackTrace();
 		}
 	}
-	public void modifyDisk(String path)
-	{
+
+	public void modifyDisk(String path) {
 		try {
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -309,12 +318,11 @@ public class XMLReadWrite {
 			Element root = doc.getDocumentElement();
 			NodeList devicesNodeList = root.getElementsByTagName("devices");
 
-			
 			// ---------------------------------------------------
 
 			// Devices--------------------------------------------
 			Node diskNodeList = ((Element) devicesNodeList.item(0)).getElementsByTagName("disk").item(0);
-			Node source = ((Element)diskNodeList).getElementsByTagName("source").item(0);
+			Node source = ((Element) diskNodeList).getElementsByTagName("source").item(0);
 			NamedNodeMap attr = source.getAttributes();
 			Node file = attr.getNamedItem("file");
 			file.setTextContent(path);
@@ -325,9 +333,7 @@ public class XMLReadWrite {
 
 			StreamResult streamResult = new StreamResult(new File(filePath));
 			transformer.transform(domSource, streamResult);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
