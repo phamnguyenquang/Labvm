@@ -8,7 +8,7 @@ import com.espertech.esper.client.EPServiceProviderManager;
 import com.espertech.esper.client.EPStatement;
 import com.espertech.esper.client.scopetest.SupportSubscriber;
 
-import Development.jsonLog;
+import Development.jsonIO;
 import LogReader.LogCombi;
 import LogReader.LogEvent;
 import LogReader.SSHAttackEvent;
@@ -57,7 +57,7 @@ public class App {
 //			engine.getEPRuntime().sendEvent(new Logtransform(logCombination, i1));
 //		}
 		
-		jsonLog js = new jsonLog("/home/quang/journal.log.old");
+		jsonIO js = new jsonIO("/home/quang/journal.log");
 		js.printContent();
 
 	}
