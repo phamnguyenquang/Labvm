@@ -1,4 +1,4 @@
-package Event_Study;
+package legacy;
 
 public class EventC {
 	private int property;

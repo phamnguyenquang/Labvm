@@ -1,9 +1,9 @@
-package Event_Study;
+package legacy;
 
-public class EventB {
+public class EventA {
 	private int property;
 
-	public EventB(int i) {
+	public EventA(int i) {
 		property = i;
 	}
 
