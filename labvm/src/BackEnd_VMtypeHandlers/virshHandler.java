@@ -91,6 +91,7 @@ public class virshHandler extends GeneralVMHandler {
 			xml.modifyDisk("/home/" + user + "/virsh/" + name + "/linux.img");
 			xml.removeHostDevices();
 			xml.addHostDevice("0000:06:00.0");
+			xml.WriteGeneralValue("name", "", name);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,6 +102,7 @@ public class virshHandler extends GeneralVMHandler {
 		displayVM(name);
 		restoreCurrent(name);
 		deleteCurrent(name);
+		bw.startCommand("sudo virsh undefine " + name);
 	}
 
 	// Need no snapshot stuff when state saving is wanted.
@@ -117,6 +119,7 @@ public class virshHandler extends GeneralVMHandler {
 			xml.modifyDisk("/home/" + user + "/virsh/" + name + "/linux.img");
 			xml.removeHostDevices();
 			xml.addHostDevice("0000:06:00.0");
+			xml.WriteGeneralValue("name", "", name);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -124,6 +127,7 @@ public class virshHandler extends GeneralVMHandler {
 		defineVM(path);
 		bw.startCommand("sudo virsh start " + name);
 		displayVM(name);
+		bw.startCommand("sudo virsh undefine " + name);
 	}
 
 	@Override
