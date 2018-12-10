@@ -1,0 +1,1015 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><domain id="3" type="kvm">
+                              
+    
+    
+    
+    
+    
+    
+    <name>TestOS</name>
+                              
+    
+    
+    
+    
+    
+    
+    <uuid>d2a2a8ec-8edd-4d8e-9ed6-197b2a275911</uuid>
+                              
+    
+    
+    
+    
+    
+    
+    <memory unit="KiB">8388608</memory>
+                              
+    
+    
+    
+    
+    
+    
+    <currentMemory unit="KiB">8388608</currentMemory>
+                              
+    
+    
+    
+    
+    
+    
+    <vcpu placement="static">4</vcpu>
+                              
+    
+    
+    
+    
+    
+    
+    <resource>
+                                                            
+        
+        
+        
+        
+        
+        
+        <partition>/machine</partition>
+                                                          
+    
+    
+    
+    
+    
+    
+    </resource>
+                              
+    
+    
+    
+    
+    
+    
+    <os>
+                                                            
+        
+        
+        
+        
+        
+        
+        <type arch="x86_64" machine="pc-i440fx-2.8">hvm</type>
+                                                            
+        
+        
+        
+        
+        
+        
+        <boot dev="hd"/>
+                                                          
+    
+    
+    
+    
+    
+    
+    </os>
+                              
+    
+    
+    
+    
+    
+    
+    <features>
+                                                            
+        
+        
+        
+        
+        
+        
+        <acpi/>
+                                                            
+        
+        
+        
+        
+        
+        
+        <apic/>
+                                                            
+        
+        
+        
+        
+        
+        
+        <vmport state="off"/>
+                                                          
+    
+    
+    
+    
+    
+    
+    </features>
+                              
+    
+    
+    
+    
+    
+    
+    <cpu match="exact" mode="custom">
+                                                            
+        
+        
+        
+        
+        
+        
+        <model fallback="forbid">Haswell</model>
+                                                          
+    
+    
+    
+    
+    
+    
+    </cpu>
+                              
+    
+    
+    
+    
+    
+    
+    <clock offset="utc">
+                                                            
+        
+        
+        
+        
+        
+        
+        <timer name="rtc" tickpolicy="catchup"/>
+                                                            
+        
+        
+        
+        
+        
+        
+        <timer name="pit" tickpolicy="delay"/>
+                                                            
+        
+        
+        
+        
+        
+        
+        <timer name="hpet" present="no"/>
+                                                          
+    
+    
+    
+    
+    
+    
+    </clock>
+                              
+    
+    
+    
+    
+    
+    
+    <on_poweroff>destroy</on_poweroff>
+                              
+    
+    
+    
+    
+    
+    
+    <on_reboot>restart</on_reboot>
+                              
+    
+    
+    
+    
+    
+    
+    <on_crash>restart</on_crash>
+                              
+    
+    
+    
+    
+    
+    
+    <pm>
+                                                            
+        
+        
+        
+        
+        
+        
+        <suspend-to-mem enabled="no"/>
+                                                            
+        
+        
+        
+        
+        
+        
+        <suspend-to-disk enabled="no"/>
+                                                          
+    
+    
+    
+    
+    
+    
+    </pm>
+                              
+    
+    
+    
+    
+    
+    
+    <devices>
+                                                            
+        
+        
+        
+        
+        
+        
+        <emulator>/usr/bin/qemu-system-x86_64</emulator>
+                                                            
+        
+        
+        
+        
+        
+        
+        <disk device="disk" type="file">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <driver name="qemu" type="qcow2"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <source file="/home/quang/virsh/TestOS/linux.img"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <backingStore/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <target bus="ide" dev="hda"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="ide0-0-0"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0" controller="0" target="0" type="drive" unit="0"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </disk>
+                                                            
+        
+        
+        
+        
+        
+        
+        <controller index="0" model="ich9-ehci1" type="usb">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="usb"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0x00" domain="0x0000" function="0x7" slot="0x04" type="pci"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </controller>
+                                                            
+        
+        
+        
+        
+        
+        
+        <controller index="0" model="ich9-uhci1" type="usb">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="usb"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <master startport="0"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0x00" domain="0x0000" function="0x0" multifunction="on" slot="0x04" type="pci"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </controller>
+                                                            
+        
+        
+        
+        
+        
+        
+        <controller index="0" model="ich9-uhci2" type="usb">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="usb"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <master startport="2"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0x00" domain="0x0000" function="0x1" slot="0x04" type="pci"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </controller>
+                                                            
+        
+        
+        
+        
+        
+        
+        <controller index="0" model="ich9-uhci3" type="usb">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="usb"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <master startport="4"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0x00" domain="0x0000" function="0x2" slot="0x04" type="pci"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </controller>
+                                                            
+        
+        
+        
+        
+        
+        
+        <controller index="0" model="pci-root" type="pci">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="pci.0"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </controller>
+                                                            
+        
+        
+        
+        
+        
+        
+        <controller index="0" type="ide">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="ide"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0x00" domain="0x0000" function="0x1" slot="0x01" type="pci"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </controller>
+                                                            
+        
+        
+        
+        
+        
+        
+        <controller index="0" type="virtio-serial">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="virtio-serial0"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0x00" domain="0x0000" function="0x0" slot="0x05" type="pci"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </controller>
+                                                            
+        
+        
+        
+        
+        
+        
+        <serial type="pty">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <source path="/dev/pts/2"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <target port="0"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="serial0"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </serial>
+                                                            
+        
+        
+        
+        
+        
+        
+        <console tty="/dev/pts/2" type="pty">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <source path="/dev/pts/2"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <target port="0" type="serial"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="serial0"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </console>
+                                                            
+        
+        
+        
+        
+        
+        
+        <channel type="spicevmc">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <target name="com.redhat.spice.0" state="connected" type="virtio"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="channel0"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0" controller="0" port="1" type="virtio-serial"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </channel>
+                                                            
+        
+        
+        
+        
+        
+        
+        <input bus="ps2" type="mouse">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="input0"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </input>
+                                                            
+        
+        
+        
+        
+        
+        
+        <input bus="ps2" type="keyboard">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="input1"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </input>
+                                                            
+        
+        
+        
+        
+        
+        
+        <graphics autoport="yes" listen="127.0.0.1" port="5900" type="spice">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <listen address="127.0.0.1" type="address"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <image compression="off"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </graphics>
+                                                            
+        
+        
+        
+        
+        
+        
+        <sound model="ich6">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="sound0"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0x00" domain="0x0000" function="0x0" slot="0x03" type="pci"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </sound>
+                                                            
+        
+        
+        
+        
+        
+        
+        <video>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <model heads="1" primary="yes" ram="65536" type="qxl" vgamem="16384" vram="65536"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="video0"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0x00" domain="0x0000" function="0x0" slot="0x02" type="pci"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </video>
+                                                            
+        
+        
+        
+        
+        
+        
+        <redirdev bus="usb" type="spicevmc">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="redir0"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0" port="1" type="usb"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </redirdev>
+                                                            
+        
+        
+        
+        
+        
+        
+        <redirdev bus="usb" type="spicevmc">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="redir1"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0" port="2" type="usb"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </redirdev>
+                                                            
+        
+        
+        
+        
+        
+        
+        <memballoon model="virtio">
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <alias name="balloon0"/>
+                                                                                          
+            
+            
+            
+            
+            
+            
+            <address bus="0x00" domain="0x0000" function="0x0" slot="0x06" type="pci"/>
+                                                                                        
+        
+        
+        
+        
+        
+        
+        </memballoon>
+                                                            
+    
+    
+    
+    	
+  
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        <interface type="direct">
+            <source dev="enp0s25" mode="passthrough"/>
+        </interface>
+    <hostdev managed="yes" mode="subsystem" type="pci"><driver name="vfio"/><source><address bus="0x06" domain="0x0000" function="0x0" slot="0x00"/></source></hostdev></devices>
+                              
+    
+    
+    
+    
+    
+    
+    <seclabel model="none" type="none"/>
+                              
+    
+    
+    
+    
+    
+    
+    <seclabel model="dac" relabel="yes" type="dynamic">
+                                                            
+        
+        
+        
+        
+        
+        
+        <label>+64055:+64055</label>
+                                                            
+        
+        
+        
+        
+        
+        
+        <imagelabel>+64055:+64055</imagelabel>
+                                                          
+    
+    
+    
+    
+    
+    
+    </seclabel>
+                            
+
+
+
+
+
+
+</domain>

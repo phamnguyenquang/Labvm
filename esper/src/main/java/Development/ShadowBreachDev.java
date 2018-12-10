@@ -4,11 +4,11 @@ import java.util.Map;
 
 import LogReader.Logtransform;
 
-public class SSHbruteForceDev {
+public class ShadowBreachDev {
 	public String getStatement()
 	{
 		String log2 = "select * from LogEventDev match_recognize( "
-				+ "measures A as LogEventDev1, B as LogEventDev2 pattern (A B) define A as A.message.contains('ssh'), B as B.message.contains('ssh') and (B.time - A.time >= 1))";
+				+ "measures A as LogEventDev1, B as LogEventDev2 pattern (A B) define A as A.message.contains('session opened for user root'), B as B.message.contains('/etc/shadow')";
 		return log2;
 	}
 	public void update(Map<String, LogEventDev>Eventmap)
@@ -16,7 +16,7 @@ public class SSHbruteForceDev {
 		LogEventDev LogEventDev1 = (LogEventDev) Eventmap.get("LogEventDev1");
 		LogEventDev LogEventDev2 = (LogEventDev) Eventmap.get("LogEventDev2");
 		StringBuffer sb= new StringBuffer();
-		sb.append("ssh attack detected");
+		sb.append("shadow password file was tempted, was that intentional?");
 		System.out.println(sb.toString());
 	}
 }

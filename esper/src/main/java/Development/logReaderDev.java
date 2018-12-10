@@ -12,7 +12,7 @@ public class logReaderDev {
 		Messages = logger.getMessageLog();
 		timeStamp = logger.getTimeStampLog();
 		logger.update();
-		System.out.println(logger.size());
+//		System.out.println(logger.size());
 	}
 
 	public String MessageAt(int i) {

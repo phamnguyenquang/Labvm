@@ -73,7 +73,7 @@ public class jsonIO {
 
 	public void update() {
 		getContent();
-		printMessage();
+//		printMessage();
 	}
 
 }
