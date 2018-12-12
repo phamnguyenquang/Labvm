@@ -2,18 +2,18 @@ package Development;
 
 public class LogEventDev {
 	private String message = "";
-	private int Time = 0;
+	private double Time = 0.0;
 
 	public LogEventDev(logReaderDev reader, int i) {
 		message = reader.MessageAt(i);
-		Time = reader.getTimeStampAt(i);
+		Time = Double.parseDouble(reader.getTimeStampAt(i));
 	}
 
 	public String getMessage() {
 		return message;
 	}
 
-	public int getTime() {
+	public double getTime() {
 		return Time;
 	}
 }

@@ -13,12 +13,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
 
+import Background.CommandExecutor;
+
 public class jsonIO {
 	private String path;
 	private ArrayList<String> Messages = new ArrayList<String>();
-	private ArrayList<Integer> timeStamp = new ArrayList<Integer>();
+	private ArrayList<String> timeStamp = new ArrayList<String>();
 	private String tempString = "";
-	private int tempInt = 0;
+	private String tempInt = "";
+	private CommandExecutor cmd = new CommandExecutor();
 
 	public jsonIO(String pathFile) {
 		path = pathFile;
@@ -27,6 +30,9 @@ public class jsonIO {
 
 	private void getContent() {
 		try {
+			cmd.startCommand("rm " + path);
+			cmd.startCommand("sudo journalctl -b -o json-pretty > " + path);
+			cmd.startCommand("sudo chmod 777 " + path);
 			InputStream jis = new FileInputStream(path);
 			Reader r = new InputStreamReader(jis, "UTF-8");
 			Gson gson = new Gson();
@@ -39,7 +45,7 @@ public class jsonIO {
 					String mm = (String) m.get("MESSAGE");
 					tempString = mm;
 					Messages.add(tempString);
-					tempInt = Integer.parseInt(((String) m.get("__MONOTONIC_TIMESTAMP")));
+					tempInt = (String) m.get("__MONOTONIC_TIMESTAMP");
 					timeStamp.add(tempInt);
 				}
 			}
@@ -57,7 +63,7 @@ public class jsonIO {
 		return Messages;
 	}
 
-	public ArrayList<Integer> getTimeStampLog() {
+	public ArrayList<String> getTimeStampLog() {
 		return timeStamp;
 	}
 

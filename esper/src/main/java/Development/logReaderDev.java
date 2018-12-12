@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class logReaderDev {
 	private ArrayList<String> Messages = new ArrayList<String>();
-	private ArrayList<Integer> timeStamp = new ArrayList<Integer>();
+	private ArrayList<String> timeStamp = new ArrayList<String>();
 	private jsonIO logger;
 
 	public logReaderDev(String path) {
@@ -19,7 +19,7 @@ public class logReaderDev {
 		return Messages.get(i);
 	}
 
-	public Integer getTimeStampAt(int i) {
+	public String getTimeStampAt(int i) {
 		return timeStamp.get(i);
 	}
 

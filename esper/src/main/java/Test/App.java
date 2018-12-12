@@ -10,6 +10,7 @@ import com.espertech.esper.client.scopetest.SupportSubscriber;
 
 import Development.LogEventDev;
 import Development.SSHbruteForceDev;
+import Development.ShadowBreachDev;
 import Development.jsonIO;
 import Development.logReaderDev;
 import LogReader.LogCombi;
@@ -30,11 +31,11 @@ public class App {
 //		LogCombi logCombination = new LogCombi();
 //		int i = logCombination.authLength();
 //		SSHAttackEvent lp = new SSHAttackEvent();
-		
+
 		logReaderDev testReader = new logReaderDev("/home/quang/journal.log");
 		int i = testReader.size();
 		SSHbruteForceDev lp = new SSHbruteForceDev();
-		
+		ShadowBreachDev sdb = new ShadowBreachDev();
 
 		EPServiceProvider engine = EPServiceProviderManager.getDefaultProvider();
 		EPAdministrator admin = engine.getEPAdministrator();
@@ -52,10 +53,12 @@ public class App {
 		SupportSubscriber subscriber = new SupportSubscriber();
 
 		EPStatement log2Statement = admin.createEPL(lp.getStatement());
+		EPStatement log2Statement1 = admin.createEPL((sdb.getStatement()));
 //		EPStatement schemaCreate = engine.getEPAdministrator().createEPL(schema);
 //		EPStatement logStatement = engine.getEPAdministrator().createEPL(log);
 
 		log2Statement.setSubscriber(lp);
+		log2Statement1.setSubscriber(sdb);
 
 //		log2Statement.addListener((newData, oldData) -> {
 //			String test = (String) newData[0].get("authLine");
@@ -65,8 +68,6 @@ public class App {
 		for (int i1 = 0; i1 < i; ++i1) {
 			engine.getEPRuntime().sendEvent(new LogEventDev(testReader, i1));
 		}
-		
-
 
 	}
 
