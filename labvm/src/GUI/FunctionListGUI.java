@@ -27,7 +27,7 @@ public class FunctionListGUI {
 	 */
 	private JFrame frame;
 	private String[] data = { "Set parameters", "Backup Selection", "Backup Creation", "Reset To Original Image",
-			"Update", "Exit" };
+			"Update" };
 	private JList list;
 	private SwingWorker<Void, Void> mySwingWorker;
 	private String function;
@@ -65,10 +65,6 @@ public class FunctionListGUI {
 				switch (function) {
 				case "Set parameters": {
 					JOptionPane.showMessageDialog(null, "Function Under Construction", "Notice", 0);
-					break;
-				}
-				case "Exit": {
-					System.exit(0);
 					break;
 				}
 				case "Backup Selection": {
