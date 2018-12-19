@@ -9,6 +9,7 @@ import com.espertech.esper.client.EPStatement;
 import com.espertech.esper.client.scopetest.SupportSubscriber;
 
 import Development.LogEventDev;
+import Development.PortScanDetection;
 import Development.SSHbruteForceDev;
 import Development.ShadowBreachDev;
 import Development.jsonIO;
@@ -36,6 +37,7 @@ public class App {
 		int i = testReader.size();
 		SSHbruteForceDev lp = new SSHbruteForceDev();
 		ShadowBreachDev sdb = new ShadowBreachDev();
+		PortScanDetection psd = new PortScanDetection();
 
 		EPServiceProvider engine = EPServiceProviderManager.getDefaultProvider();
 		EPAdministrator admin = engine.getEPAdministrator();
@@ -43,6 +45,7 @@ public class App {
 //		engine.getEPAdministrator().getConfiguration().addEventType(Logtransform.class);
 		engine.getEPAdministrator().getConfiguration().addEventType(SSHbruteForceDev.class);
 		engine.getEPAdministrator().getConfiguration().addEventType(LogEventDev.class);
+		admin.getConfiguration().addEventType(PortScanDetection.class);
 //		String schema = "create context Test start @now end after 10 sec";
 //
 //		String log = "context Test select authLine from LogProcess where authLine.contains('root')";
@@ -54,11 +57,13 @@ public class App {
 
 		EPStatement log2Statement = admin.createEPL(lp.getStatement());
 		EPStatement log2Statement1 = admin.createEPL((sdb.getStatement()));
+		EPStatement log2Statement2 = admin.createEPL(psd.getStatement());
 //		EPStatement schemaCreate = engine.getEPAdministrator().createEPL(schema);
 //		EPStatement logStatement = engine.getEPAdministrator().createEPL(log);
 
 		log2Statement.setSubscriber(lp);
 		log2Statement1.setSubscriber(sdb);
+		log2Statement2.setSubscriber(psd);
 
 //		log2Statement.addListener((newData, oldData) -> {
 //			String test = (String) newData[0].get("authLine");

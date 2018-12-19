@@ -25,7 +25,7 @@ public class SSHbruteForceDev {
 			StringBuffer sb = new StringBuffer();
 			sb.append("multiple ssh login attempt failed.");
 			System.out.println(sb.toString());
-			System.out.println(oldCount);
+			System.out.println("number of attempt since boot: " + oldCount);
 		}
 	}
 }
