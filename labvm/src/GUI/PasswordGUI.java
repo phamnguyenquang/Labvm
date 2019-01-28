@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
+import BackEnd_Misc.CommandExecutor;
 import BackEnd_VMtypeHandlers.GeneralVMHandler;
 
 import java.awt.event.ActionListener;
@@ -22,6 +23,7 @@ public class PasswordGUI {
 	private JPasswordField passwordField;
 	private JFrame parent;
 	private GeneralVMHandler vmHandler;
+	private CommandExecutor linux = new CommandExecutor();
 
 	/**
 	 * Create the application.
@@ -68,7 +70,29 @@ public class PasswordGUI {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String pass = new String(passwordField.getPassword());
-				if (pass.equals("laborvirtualization")) {
+				linux.startCommand("whoami");
+				String user = linux.getResult();
+				linux.startCommand("sudo cat /etc/shadow | grep " + user);
+				String SysPass = linux.getResult();
+				String trimmedPass = "";
+				for (int i = user.length() + 2; i < SysPass.length(); ++i) {
+					if (SysPass.charAt(i) == ':') {
+						trimmedPass = SysPass.substring(user.length() + 1, i);
+						break;
+					}
+				}
+				System.out.println("test: " + trimmedPass);
+				String salt = "";
+				int index = SysPass.length();
+				for (int i = 3; i < SysPass.length(); ++i) {
+					if (SysPass.charAt(i) == '$') {
+						index = i;
+					}
+				}
+				salt = SysPass.substring((user.length() + 4), index);
+				linux.startCommand("mkpasswd -m sha-512 " + pass + " -s " + salt + "");
+				String enteredPass = linux.getResult();
+				if (enteredPass.equals(trimmedPass)) {
 					System.out.println("correct pass");
 					parent.dispose();
 					frame.dispose();
