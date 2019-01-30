@@ -111,6 +111,7 @@ public class AdminGUI {
 		JButton btnNewButton_1 = new JButton("Back");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
 				new OSSelectionGUI(vmHandler);
 			}
 		});
