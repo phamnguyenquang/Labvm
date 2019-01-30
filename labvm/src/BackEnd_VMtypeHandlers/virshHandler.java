@@ -12,7 +12,6 @@ public class virshHandler extends GeneralVMHandler {
 	private CommandExecutor bw;
 	private XMLReadWrite xml;
 	private String user;
-	private String path;
 
 	public virshHandler() {
 		bw = new CommandExecutor();
@@ -82,6 +81,8 @@ public class virshHandler extends GeneralVMHandler {
 		shutdownVM(name);
 		bw.startCommand("sudo virsh undefine " + name);
 		String path = "/home/" + user + "/virsh/.config/DefOS.xml";
+		String pathbak = "/home/" + user + "/virsh/.config/DefOSbak.xml";
+		bw.startCommand("cp "+ pathbak+" "+path);
 		pciConfiguration pci;
 		try {
 			pci = new pciConfiguration(path);
@@ -110,6 +111,8 @@ public class virshHandler extends GeneralVMHandler {
 		shutdownVM(name);
 		bw.startCommand("sudo virsh undefine " + name);
 		String path = "/home/" + user + "/virsh/.config/DefOS.xml";
+		String pathbak = "/home/" + user + "/virsh/.config/DefOSbak.xml";
+		bw.startCommand("cp "+ pathbak+" "+path);
 		pciConfiguration pci;
 		try {
 			pci = new pciConfiguration(path);

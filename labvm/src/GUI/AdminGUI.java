@@ -94,6 +94,10 @@ public class AdminGUI {
 					System.exit(0);
 					break;
 				}
+				case "Advanced Parameter Setup":
+				{
+					
+				}
 				default: {
 					JOptionPane.showMessageDialog(null, "Under Construction", "Notice", 1);
 					break;

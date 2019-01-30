@@ -42,6 +42,8 @@ public class XMLReadWrite {
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
 			Document doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
@@ -95,6 +97,8 @@ public class XMLReadWrite {
 			String function = "0x" + newValue.substring(11);
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
@@ -151,6 +155,8 @@ public class XMLReadWrite {
 		try {
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
@@ -194,6 +200,8 @@ public class XMLReadWrite {
 		try {
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
@@ -228,6 +236,8 @@ public class XMLReadWrite {
 		try {
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
@@ -271,6 +281,8 @@ public class XMLReadWrite {
 		try {
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
@@ -312,6 +324,8 @@ public class XMLReadWrite {
 		try {
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
