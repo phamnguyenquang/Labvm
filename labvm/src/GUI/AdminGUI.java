@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import BackEnd_Misc.pciConfiguration;
 import BackEnd_VMtypeHandlers.GeneralVMHandler;
+import Development.ParameterGUI;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -83,7 +84,7 @@ public class AdminGUI {
 					JOptionPane.showMessageDialog(null, "Under Construction", "Notice", 1);
 					break;
 				}
-				case "Exit":{
+				case "Exit": {
 					try {
 						pciConfiguration pci = new pciConfiguration();
 						pci.vfioUnbind();
@@ -94,12 +95,11 @@ public class AdminGUI {
 					System.exit(0);
 					break;
 				}
-				case "Advanced Parameter Setup":
-				{
-					
+				case "Advanced Parameter Setup": {
+
 				}
 				default: {
-					JOptionPane.showMessageDialog(null, "Under Construction", "Notice", 1);
+					new ParameterGUI();
 					break;
 				}
 				}

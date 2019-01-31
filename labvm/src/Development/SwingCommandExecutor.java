@@ -9,5 +9,10 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
 public class SwingCommandExecutor {
-
+	private int check;
+	
+	public SwingCommandExecutor()
+	{
+		
+	}
 }
