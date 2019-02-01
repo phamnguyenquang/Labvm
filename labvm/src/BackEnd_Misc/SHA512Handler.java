@@ -25,7 +25,7 @@ public class SHA512Handler {
 				break;
 			}
 		}
-		System.out.println("test: " + trimmedPass);
+		System.out.println(trimmedPass);
 		String salt = "";
 		int index = userPass.length();
 		for (int i = 3; i < userPass.length(); ++i) {
@@ -36,6 +36,7 @@ public class SHA512Handler {
 		salt = userPass.substring((user.length() + 4), index);
 		linux.startCommand("mkpasswd -m sha-512 " + inputPass + " -s " + salt + "");
 		codedInputPass = linux.getResult();
+		System.out.println(codedInputPass);
 	}
 
 	public boolean isMatch() {
