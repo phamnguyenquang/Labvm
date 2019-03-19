@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 public class AdminGUI {
 
 	private JFrame frame;
-	private String[] functionList = { "Advanced Backup Management", "Advanced Parameter Setup",
+	private String[] functionList = { "Advanced Backup Management", "Parameter Setup",
 			"Server Setting(under construction)", "Exit" };
 	private JList list;
 	private String function = "";
@@ -95,7 +95,7 @@ public class AdminGUI {
 					System.exit(0);
 					break;
 				}
-				case "Advanced Parameter Setup": {
+				case "Parameter Setup": {
 
 				}
 				default: {

@@ -169,7 +169,7 @@ public class OSSelectionGUI {
 		JButton button = new JButton("?");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println(linuxCommandExecutor.startCommand("pwd"));
+				JOptionPane.showMessageDialog(null, "Please consult the user manual or contact the system administrator", "Warning", 1);
 			}
 		});
 		/*

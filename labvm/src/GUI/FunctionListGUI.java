@@ -26,8 +26,7 @@ public class FunctionListGUI {
 	 * The option list is fixed, therefore hardcoded.
 	 */
 	private JFrame frame;
-	private String[] data = { "Set parameters", "Backup Selection", "Backup Creation", "Reset To Original Image",
-			"Update" };
+	private String[] data = {"Backup Selection", "Backup Creation", "Reset To Original Image"};
 	private JList list;
 	private SwingWorker<Void, Void> mySwingWorker;
 	private String function;
@@ -63,10 +62,6 @@ public class FunctionListGUI {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				switch (function) {
-				case "Set parameters": {
-					JOptionPane.showMessageDialog(null, "Function Under Construction", "Notice", 0);
-					break;
-				}
 				case "Backup Selection": {
 					linuxCommandExecutor.startCommand("cat " + path + "/state");
 					String result = linuxCommandExecutor.getResult();
@@ -88,10 +83,12 @@ public class FunctionListGUI {
 					break;
 				}
 				case "Backup Creation": {
+					linuxCommandExecutor.startCommand("cat " + path + "/state");
+					String res = linuxCommandExecutor.getResult();
 					if (path == "" || path == null) {
 						System.out.println("Please select a user");
 						JOptionPane.showMessageDialog(null, "Please select a user", "Error", 0);
-					} else if (linuxCommandExecutor.startCommand("cat " + path + "/state").equals("false")) {
+					} else if (res.equals("false")) {
 						JOptionPane.showMessageDialog(null,
 								"Back up options is not available for this image \n Please contact the administrator for further information",
 								"Error", 1);
@@ -100,15 +97,13 @@ public class FunctionListGUI {
 					}
 					break;
 				}
-				case "Update": {
-					JOptionPane.showMessageDialog(null, "Function Under Construction", "Notice", 0);
-					break;
-				}
 				case "Reset To Original Image": {
+					linuxCommandExecutor.startCommand("cat " + path + "/state");
+					String res = linuxCommandExecutor.getResult();
 					if (path == "" || path == null) {
 						System.out.println("Please select a user");
 						JOptionPane.showMessageDialog(null, "Please select a user", "Error", 0);
-					} else if (linuxCommandExecutor.startCommand("cat " + path + "/state").equals("false")) {
+					} else if (res.equals("false")) {
 						JOptionPane.showMessageDialog(null,
 								"Back up options is not available for this image \n Please contact the administrator for further information",
 								"Error", 1);
