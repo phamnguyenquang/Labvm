@@ -24,8 +24,7 @@ import java.awt.event.ActionEvent;
 public class AdminGUI {
 
 	private JFrame frame;
-	private String[] functionList = { "Advanced Backup Management", "Parameter Setup",
-			"Server Setting(under construction)", "Exit" };
+	private String[] functionList = { "Advanced Backup Management", "Parameter Setup", "Exit" };
 	private JList list;
 	private String function = "";
 	private GeneralVMHandler vmHandler;
