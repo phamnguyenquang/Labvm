@@ -46,9 +46,10 @@ public class ShowWaitAction {
 		panel.add(progressBar, BorderLayout.CENTER);
 		panel.add(new JLabel("Please wait......."), BorderLayout.PAGE_START);
 		dialog.add(panel);
+		dialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		dialog.pack();
 		dialog.setLocationRelativeTo(win);
-		dialog.setSize(400,70);
+		dialog.setSize(400, 70);
 		dialog.setVisible(true);
 	}
 }

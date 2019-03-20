@@ -101,6 +101,7 @@ public class PasswordGUI {
 		gbc_btnNewButton_1.gridx = 3;
 		gbc_btnNewButton_1.gridy = 2;
 		frame.getContentPane().add(btnNewButton_1, gbc_btnNewButton_1);
+		frame.getRootPane().setDefaultButton(btnNewButton);
 		frame.setSize(500, 100);
 		frame.setVisible(true);
 	}

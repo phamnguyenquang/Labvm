@@ -26,7 +26,7 @@ public class FunctionListGUI {
 	 * The option list is fixed, therefore hardcoded.
 	 */
 	private JFrame frame;
-	private String[] data = {"Backup Selection", "Backup Creation", "Reset To Original Image"};
+	private String[] data = { "Backup Selection", "Backup Creation","Restore From Backup", "Reset To Original Image" };
 	private JList list;
 	private SwingWorker<Void, Void> mySwingWorker;
 	private String function;
@@ -110,6 +110,11 @@ public class FunctionListGUI {
 					} else {
 						JOptionPane.showMessageDialog(null, "Function Under Construction", "Notice", 0);
 					}
+					break;
+				}
+				case "Restore From Backup":{
+					System.out.println("Under Construction");
+					JOptionPane.showMessageDialog(null, "Function Under Construction \n To restore the main image \n from the backed up image", "Notice", 0);
 					break;
 				}
 				default: {

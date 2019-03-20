@@ -5,8 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
+
+import BackEnd_Misc.CommandExecutor;
+import XMLhandler.XMLReadWrite;
+
 import java.awt.Insets;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -15,13 +21,15 @@ import java.awt.event.ActionEvent;
 public class ParameterGUI {
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField vCPUsField;
 	private JLabel lblNewLabel_1;
-	private JTextField textField_1;
+	private JTextField vRAMField;
 	private JLabel lblNewLabel_2;
 	private JTextField textField_2;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
+	private XMLReadWrite xmlParser;
+	private CommandExecutor bw;
 
 	/**
 	 * Create the GUI.
@@ -52,15 +60,15 @@ public class ParameterGUI {
 		gbc_lblNewLabel.gridy = 0;
 		frame.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
 
-		textField = new JTextField();
+		vCPUsField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.gridwidth = 2;
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 0;
-		frame.getContentPane().add(textField, gbc_textField);
-		textField.setColumns(10);
+		frame.getContentPane().add(vCPUsField, gbc_textField);
+		vCPUsField.setColumns(10);
 
 		lblNewLabel_1 = new JLabel("vRAM(KiB)");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -70,15 +78,15 @@ public class ParameterGUI {
 		gbc_lblNewLabel_1.gridy = 1;
 		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-		textField_1 = new JTextField();
+		vRAMField = new JTextField();
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.gridwidth = 2;
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.gridx = 1;
 		gbc_textField_1.gridy = 1;
-		frame.getContentPane().add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		frame.getContentPane().add(vRAMField, gbc_textField_1);
+		vRAMField.setColumns(10);
 
 		lblNewLabel_2 = new JLabel("Some Param");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -101,6 +109,15 @@ public class ParameterGUI {
 		btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				bw = new CommandExecutor();
+				bw.startCommand("sudo virsh connect qemu:///system");
+				bw.startCommand("whoami");
+				String user = bw.getResult();
+				xmlParser = new XMLReadWrite("/home/" + user + "/virsh/.config/DefOS.xml");
+				xmlParser.WriteGeneralValue("memory", "", vRAMField.getText());
+				xmlParser.WriteGeneralValue("vcpu", "", vCPUsField.getText());
+				JOptionPane.showMessageDialog(null, "Done", "Notice", 1);
+
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -109,7 +126,7 @@ public class ParameterGUI {
 		gbc_btnNewButton.gridy = 8;
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
 
-		btnNewButton_1 = new JButton("Cancel");
+		btnNewButton_1 = new JButton("Back");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();

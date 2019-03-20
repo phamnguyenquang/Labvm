@@ -85,10 +85,10 @@ public class TextInputFieldGUI {
 						switch (action) {
 						case "backup": {
 							String backupPath = dirPath + "/backup/" + text + ".img";
-							System.out.println("sudo cp " + dirPath + "/linux.img " + backupPath);
+//							System.out.println("sudo cp " + dirPath + "/linux.img " + backupPath);
 							command.startCommand("sudo cp " + dirPath + "/linux.img " + backupPath);
 							frame.dispose();
-							command.startCommand("sudo cp " + dirPath + "/linux.img " + backupPath);
+//							command.startCommand("sudo cp " + dirPath + "/linux.img " + backupPath);
 							JOptionPane.showMessageDialog(null, "Backup Created", "Notice", 1);
 							break;
 							}
@@ -121,6 +121,7 @@ public class TextInputFieldGUI {
 		gbc_btnNewButton_1.gridx = 2;
 		gbc_btnNewButton_1.gridy = 4;
 		frame.getContentPane().add(btnNewButton_1, gbc_btnNewButton_1);
+		frame.getRootPane().setDefaultButton(btnNewButton);
 		frame.setSize(500, 120);
 		frame.setVisible(true);
 	}
