@@ -4,8 +4,12 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.net.SocketException;
 import java.util.Vector;
+
+import org.apache.commons.net.ftp.FTPClient;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -24,6 +28,7 @@ public class SomeTest {
 	private Session session = null;
 	private Channel channel = null;
 	private ChannelSftp channelSftp = null;
+	private FTPClient ftp;
 
 	public SomeTest() {
 
@@ -86,6 +91,49 @@ public class SomeTest {
 				System.out.println(entry.getFilename());
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void makeFTPConnection(String username, String pass) {
+		ftp = new FTPClient();
+		SFTPHOST = username;
+		SFTPPASS = pass;
+		try {
+			ftp.connect(SFTPHOST, 69);
+			ftp.login(SFTPUSER, SFTPPASS);
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void listFTPdir() {
+		try {
+			ftp.listFiles();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void listFTPfile() {
+		try {
+			ftp.listFiles();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void terminateFTP() {
+		try {
+			ftp.disconnect();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
