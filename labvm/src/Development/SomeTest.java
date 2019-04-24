@@ -55,7 +55,7 @@ public class SomeTest {
 		}
 	}
 
-	public void destroyConnection() {
+	public void terminateSSHConnection() {
 		channelSftp.disconnect();
 		session.disconnect();
 		System.out.println("done");
@@ -129,7 +129,7 @@ public class SomeTest {
 		}
 	}
 
-	public void terminateFTP() {
+	public void terminateFTPConnection() {
 		try {
 			ftp.disconnect();
 		} catch (IOException e) {
