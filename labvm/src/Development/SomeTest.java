@@ -29,16 +29,18 @@ public class SomeTest {
 	private Channel channel = null;
 	private ChannelSftp channelSftp = null;
 	private FTPClient ftp;
+	private String connectionType = "";
 
 	public SomeTest() {
 
 	}
 
-	public void makeConnection(String username, String pass) {
+	public void makeSSHConnection(String server, String username, String pass) {
 		try {
 			JSch jsch = new JSch();
 			SFTPUSER = username;
 			SFTPPASS = pass;
+			SFTPHOST = server;
 			session = jsch.getSession(SFTPUSER, SFTPHOST, SFTPPORT);
 			session.setPassword(SFTPPASS);
 			java.util.Properties config = new java.util.Properties();
@@ -50,23 +52,28 @@ public class SomeTest {
 			channelSftp = (ChannelSftp) channel;
 			channelSftp.cd(SFTPWORKINGDIR);
 			System.out.println("success");
+			connectionType = "SSH";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void terminateSSHConnection() {
-		channelSftp.disconnect();
-		session.disconnect();
-		System.out.println("done");
-	}
+	public void downloadFile(String path, String filename) {
 
-	public void downloadFile(String filename) {
-		String pathFile = SFTPWORKINGDIR + "/" + filename;
 		try {
-			System.out.println(pathFile);
-			this.channelSftp.get(pathFile, "/home/quang/" + filename);
+			System.out.println(filename);
+			if (connectionType.equals("SSH")) {
+				System.out.println(path);
+				this.channelSftp.get(path, "/home/quang/" + filename);
+			} else if (connectionType.equals("FTP")) {
+				System.out.println(path);
+				FileOutputStream fos = new FileOutputStream("/home/quang/" + filename);
+				ftp.retrieveFile(path, fos);
+			}
 		} catch (SftpException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -95,13 +102,16 @@ public class SomeTest {
 		}
 	}
 
-	public void makeFTPConnection(String username, String pass) {
+	public void makeFTPConnection(String server, String username, String pass) {
 		ftp = new FTPClient();
 		SFTPHOST = username;
 		SFTPPASS = pass;
+		SFTPHOST = server;
 		try {
-			ftp.connect(SFTPHOST, 69);
+			ftp.connect(SFTPHOST, 21);
 			ftp.login(SFTPUSER, SFTPPASS);
+//			ftp.enterLocalActiveMode();
+			connectionType = "FTP";
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,13 +138,20 @@ public class SomeTest {
 			e.printStackTrace();
 		}
 	}
-
-	public void terminateFTPConnection() {
+	public void terminateConnection() {
 		try {
-			ftp.disconnect();
+			if (connectionType.equals("FTP")) {
+				ftp.logout();
+				ftp.disconnect();
+			} else if (connectionType.equals("SSH")) {
+				channelSftp.disconnect();
+				session.disconnect();
+				System.out.println("done");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 }

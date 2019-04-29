@@ -15,11 +15,11 @@ public class labvm {
 	public static void main(String args[]) throws IOException {
 //		GeneralVMHandler vmHandler = new virshHandler();
 //		new OSSelectionGUI(vmHandler);
-//		SomeTest tt = new SomeTest();
-//		tt.makeConnection("quang", "kalimdor");
-//		tt.downloadFile("pxelinux.0");
-//		tt.destroyConnection();
-		
-		new TestUI();
+		SomeTest tt = new SomeTest();
+		tt.makeFTPConnection("192.168.20.128", "quang", "kalimdor");
+		tt.downloadFile("/home/quang/test.ovpn", "test.ovpn");
+		tt.terminateConnection();
+
+//		new TestUI();
 	}
 }

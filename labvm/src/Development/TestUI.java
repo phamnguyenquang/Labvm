@@ -55,6 +55,7 @@ public class TestUI {
 		OSImageList = vmHandler.getOSList();
 		frame = new JFrame();
 		frame.setSize(new Dimension(600, 400));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0 };
@@ -79,6 +80,7 @@ public class TestUI {
 		frame.getContentPane().add(btnStart, gbc_btnStart);
 
 		JButton btnUpload = new JButton("Upload");
+
 		GridBagConstraints gbc_btnUpload = new GridBagConstraints();
 		gbc_btnUpload.insets = new Insets(0, 0, 5, 5);
 		gbc_btnUpload.gridx = 2;
@@ -153,11 +155,15 @@ public class TestUI {
 				scrollPane = new JScrollPane(list);
 			}
 		});
+		btnUpload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnMore.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				net.makeFTPConnection("quang", "abxy");
+				net.makeFTPConnection("192.168.20.128", "quang", "abxy");
 				net.listFTPdir();
-				net.terminateSSHConnection();
+				net.terminateConnection();
 			}
 		});
 		btnAdmin.addActionListener(new ActionListener() {
@@ -192,7 +198,7 @@ public class TestUI {
 						}
 						}
 					} else {
-						System.out.println("No chosen");
+						System.out.println("No path chosen");
 					}
 
 				}
