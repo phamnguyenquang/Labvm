@@ -6,7 +6,14 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/home/quang/git/labvm/commons-net-2.2-ftp.jar"/>
-	<classpathentry kind="lib" path="/home/quang/git/labvm/jsch-0.1.55.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/quang/git/labvm/commons-net-2.2-ftp.jar"/>
+	<classpathentry exported="true" kind="lib" path="/home/quang/git/labvm/jsch-0.1.55.jar"/>
+	<classpathentry kind="lib" path="/home/quang/git/labvm/swt.jar"/>
+	<classpathentry kind="lib" path="org.pushingpixels.trident_1.2.0.v20100204-1500.jar" sourcepath="org.pushingpixels.trident.source_1.2.0.v20100204-1500.jar"/>
+	<classpathentry kind="lib" path="org.eclipse.e4.xwt_0.9.1.SNAPSHOT.jar" sourcepath="org.eclipse.e4.xwt.source_0.9.1.SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="org.eclipse.e4.xwt.forms_0.9.1.SNAPSHOT.jar" sourcepath="org.eclipse.e4.xwt.forms.source_0.9.1.SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/home/quang/.p2/pool/plugins/org.eclipse.core.databinding_1.7.200.v20190216-1545.jar" sourcepath="/home/quang/.p2/pool/plugins/org.eclipse.core.databinding_1.7.200.v20190216-1545.jar"/>
+	<classpathentry kind="lib" path="/home/quang/.p2/pool/plugins/org.eclipse.core.databinding.observable_1.6.400.v20190218-2049.jar" sourcepath="/home/quang/.p2/pool/plugins/org.eclipse.core.databinding.observable_1.6.400.v20190218-2049.jar"/>
+	<classpathentry kind="lib" path="/home/quang/.p2/pool/plugins/org.eclipse.jface.databinding_1.8.500.v20190218-2049.jar" sourcepath="/home/quang/.p2/pool/plugins/org.eclipse.jface.databinding_1.8.500.v20190218-2049.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
