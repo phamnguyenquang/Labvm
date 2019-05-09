@@ -9,6 +9,7 @@ import BackEnd_VMtypeHandlers.virshHandler;
 
 import org.eclipse.swt.widgets.Button;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -24,6 +25,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Text;
 
 public class TestSWT {
 
@@ -37,6 +39,7 @@ public class TestSWT {
 	private String path = "";
 	private String OSName = "";
 	private String vmManagerType;
+	private Text text;
 
 	/**
 	 * Launch the application.
@@ -84,36 +87,36 @@ public class TestSWT {
 
 		Button btnNewButton = new Button(shell, SWT.NONE);
 
-		btnNewButton.setBounds(0, 0, 37, 26);
-		btnNewButton.setText("Srt");
+		btnNewButton.setBounds(0, 0, 56, 26);
+		btnNewButton.setText("Start");
 
 		SashForm sashForm = new SashForm(shell, SWT.NONE);
 		sashForm.setBounds(0, 26, 782, 531);
 
 		// ----------------------------------------------------------
 		List list = new List(sashForm, SWT.BORDER);
+		
+		text = new Text(sashForm, SWT.READ_ONLY | SWT.BORDER);
+		sashForm.setWeights(new int[] {180, 599});
 
 		for (int i = 0; i < Jlist.getModel().getSize(); ++i) {
 			list.add(Jlist.getModel().getElementAt(i));
 		}
 
-		List list_1 = new List(sashForm, SWT.BORDER);
-		sashForm.setWeights(new int[] {108, 333});
-
 		Button btnNewButton_1 = new Button(shell, SWT.NONE);
 
-		btnNewButton_1.setBounds(38, 0, 37, 26);
-		btnNewButton_1.setText("Syn");
+		btnNewButton_1.setBounds(56, 0, 56, 26);
+		btnNewButton_1.setText("Sync");
 		
 		Button btnNewButton_2 = new Button(shell, SWT.NONE);
 
-		btnNewButton_2.setBounds(76, 0, 37, 29);
-		btnNewButton_2.setText("New Button");
+		btnNewButton_2.setBounds(109, -3, 56, 29);
+		btnNewButton_2.setText("Root");
 		
 		Button btnNewButton_3 = new Button(shell, SWT.NONE);
 
-		btnNewButton_3.setBounds(113, 0, 37, 29);
-		btnNewButton_3.setText("New Button");
+		btnNewButton_3.setBounds(161, -3, 81, 29);
+		btnNewButton_3.setText("Shutdown");
 		// ------------------------------------------------------------
 
 		list.addSelectionListener(new SelectionAdapter() {
@@ -161,6 +164,16 @@ public class TestSWT {
 				System.out.println(path);
 			}
 		});
+		text.setText("Read Only");
+		
+		Button btnNewButton_4 = new Button(shell, SWT.NONE);
+		btnNewButton_4.setBounds(242, -3, 81, 34);
+		btnNewButton_4.setText("Restart");
+		
+		Button btnNewButton_5 = new Button(shell, SWT.NONE);
+		btnNewButton_5.setBounds(323, -3, 81, 34);
+		btnNewButton_5.setText("More");
+		
 		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -176,7 +189,19 @@ public class TestSWT {
 		btnNewButton_3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("shutdown ");
+				bw.startCommand("sudo shutdown -h now");
+			}
+		});
+		btnNewButton_4.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				bw.startCommand("sudo shutdown -r now");
+			}
+		});
+		btnNewButton_5.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("More ");
 			}
 		});
 	}
