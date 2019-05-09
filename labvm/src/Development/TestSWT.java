@@ -78,7 +78,7 @@ public class TestSWT {
 		Jlist = new JList<String>(OSImageList);
 		// --------------------------------------------------------
 		shell = new Shell();
-		shell.setSize(450, 300);
+		shell.setSize(800, 600);
 		shell.setText("SWT Application");
 		shell.setLayout(null);
 
@@ -88,7 +88,7 @@ public class TestSWT {
 		btnNewButton.setText("Srt");
 
 		SashForm sashForm = new SashForm(shell, SWT.NONE);
-		sashForm.setBounds(0, 26, 444, 235);
+		sashForm.setBounds(0, 26, 782, 531);
 
 		// ----------------------------------------------------------
 		List list = new List(sashForm, SWT.BORDER);
@@ -98,12 +98,22 @@ public class TestSWT {
 		}
 
 		List list_1 = new List(sashForm, SWT.BORDER);
-		sashForm.setWeights(new int[] { 106, 315 });
+		sashForm.setWeights(new int[] {108, 333});
 
 		Button btnNewButton_1 = new Button(shell, SWT.NONE);
 
-		btnNewButton_1.setBounds(38, 0, 42, 26);
+		btnNewButton_1.setBounds(38, 0, 37, 26);
 		btnNewButton_1.setText("Syn");
+		
+		Button btnNewButton_2 = new Button(shell, SWT.NONE);
+
+		btnNewButton_2.setBounds(76, 0, 37, 29);
+		btnNewButton_2.setText("New Button");
+		
+		Button btnNewButton_3 = new Button(shell, SWT.NONE);
+
+		btnNewButton_3.setBounds(113, 0, 37, 29);
+		btnNewButton_3.setText("New Button");
 		// ------------------------------------------------------------
 
 		list.addSelectionListener(new SelectionAdapter() {
@@ -154,6 +164,19 @@ public class TestSWT {
 		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				System.out.println("success");
+			}
+		});
+		btnNewButton_2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("Admin Function");
+			}
+		});
+		btnNewButton_3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println("shutdown ");
 			}
 		});
 	}
