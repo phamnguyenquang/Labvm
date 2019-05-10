@@ -1,4 +1,4 @@
-package Development;
+package Development_GUI;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -20,6 +20,7 @@ import javax.swing.JSplitPane;
 import BackEnd_Misc.CommandExecutor;
 import BackEnd_VMtypeHandlers.GeneralVMHandler;
 import BackEnd_VMtypeHandlers.virshHandler;
+import Development.SomeTest;
 import GUI.PasswordGUI;
 
 import javax.swing.JScrollPane;

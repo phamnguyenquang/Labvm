@@ -1,4 +1,4 @@
-package Development;
+package Development_GUI;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import BackEnd_Misc.CommandExecutor;
 import BackEnd_VMtypeHandlers.GeneralVMHandler;
 import BackEnd_VMtypeHandlers.virshHandler;
+import Development.SomeTest;
 
 import org.eclipse.swt.widgets.Button;
 
