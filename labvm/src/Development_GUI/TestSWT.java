@@ -96,28 +96,36 @@ public class TestSWT {
 
 		// ----------------------------------------------------------
 		List list = new List(sashForm, SWT.BORDER);
-		
+
 		text = new Text(sashForm, SWT.READ_ONLY | SWT.BORDER);
-		sashForm.setWeights(new int[] {180, 599});
+		sashForm.setWeights(new int[] { 180, 599 });
 
 		for (int i = 0; i < Jlist.getModel().getSize(); ++i) {
 			list.add(Jlist.getModel().getElementAt(i));
 		}
 
-		Button btnNewButton_1 = new Button(shell, SWT.NONE);
+		Button Sync = new Button(shell, SWT.NONE);
 
-		btnNewButton_1.setBounds(56, 0, 56, 26);
-		btnNewButton_1.setText("Sync");
+		Sync.setBounds(56, 0, 56, 26);
+		Sync.setText("Sync");
+
+		Button Root = new Button(shell, SWT.NONE);
+
+		Root.setBounds(109, -3, 56, 29);
+		Root.setText("Root");
+
+		Button Shutdown = new Button(shell, SWT.NONE);
+
+		Shutdown.setBounds(161, -3, 81, 29);
+		Shutdown.setText("Shutdown");
 		
-		Button btnNewButton_2 = new Button(shell, SWT.NONE);
+		Button Restart = new Button(shell, SWT.NONE);
+		Restart.setBounds(242, -3, 81, 34);
+		Restart.setText("Restart");
 
-		btnNewButton_2.setBounds(109, -3, 56, 29);
-		btnNewButton_2.setText("Root");
-		
-		Button btnNewButton_3 = new Button(shell, SWT.NONE);
-
-		btnNewButton_3.setBounds(161, -3, 81, 29);
-		btnNewButton_3.setText("Shutdown");
+		Button More = new Button(shell, SWT.NONE);
+		More.setBounds(323, -3, 81, 34);
+		More.setText("More");
 		// ------------------------------------------------------------
 
 		list.addSelectionListener(new SelectionAdapter() {
@@ -166,44 +174,46 @@ public class TestSWT {
 			}
 		});
 		text.setText("Read Only");
-		
-		Button btnNewButton_4 = new Button(shell, SWT.NONE);
-		btnNewButton_4.setBounds(242, -3, 81, 34);
-		btnNewButton_4.setText("Restart");
-		
-		Button btnNewButton_5 = new Button(shell, SWT.NONE);
-		btnNewButton_5.setBounds(323, -3, 81, 34);
-		btnNewButton_5.setText("More");
-		
-		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
+
+
+
+		Sync.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("success");
 			}
 		});
-		btnNewButton_2.addSelectionListener(new SelectionAdapter() {
+		Root.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("Admin Function");
+				new Password(shell);
 			}
 		});
-		btnNewButton_3.addSelectionListener(new SelectionAdapter() {
+		Shutdown.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				bw.startCommand("sudo shutdown -h now");
 			}
 		});
-		btnNewButton_4.addSelectionListener(new SelectionAdapter() {
+		Restart.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				bw.startCommand("sudo shutdown -r now");
 			}
 		});
-		btnNewButton_5.addSelectionListener(new SelectionAdapter() {
+		More.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				System.out.println("More ");
 			}
 		});
+	}
+
+	public void exit() {
+		shell.close();
+	}
+
+	public void suspend() {
+		shell.dispose();
 	}
 }
