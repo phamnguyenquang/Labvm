@@ -50,7 +50,7 @@ public class Password {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		shell.setSize(450, 174);
+		shell.setSize(450, 130);
 		shell.setText("SWT Application");
 		shell.setLayout(null);
 
@@ -87,7 +87,7 @@ public class Password {
 					pshell.dispose();
 					System.out.println("test");
 					shell.dispose();
-					new TestSWT().open();
+					new SAdminGUI();
 				} else {
 					JOptionPane.showMessageDialog(null, "Wrong Password", "Error", 0);
 				}

@@ -8,6 +8,10 @@ import BackEnd_Misc.CommandExecutor;
 import BackEnd_Misc.pciConfiguration;
 import XMLhandler.XMLReadWrite;
 
+/* This whole thing probbably just need a better way of managing VMs
+ * something.....fast, sustainable
+ */
+
 public class virshHandler extends GeneralVMHandler {
 	private CommandExecutor bw;
 	private XMLReadWrite xml;

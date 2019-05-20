@@ -18,7 +18,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-public class SomeTest {
+public class Network {
 	private String SFTPHOST = "10.8.0.2";
 	private int SFTPPORT = 22;
 	private String SFTPUSER = "quang";
@@ -31,7 +31,7 @@ public class SomeTest {
 	private FTPClient ftp;
 	private String connectionType = "";
 
-	public SomeTest() {
+	public Network() {
 
 	}
 

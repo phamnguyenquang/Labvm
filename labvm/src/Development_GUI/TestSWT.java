@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import BackEnd_Misc.CommandExecutor;
 import BackEnd_VMtypeHandlers.GeneralVMHandler;
 import BackEnd_VMtypeHandlers.virshHandler;
-import Development.SomeTest;
+import Development.Network;
 
 import org.eclipse.swt.widgets.Button;
 
@@ -36,7 +36,7 @@ public class TestSWT {
 	private DefaultListModel<String> OSImageList = new DefaultListModel<String>();
 	private JScrollPane scrollPane;
 	private JList<String> Jlist;
-	private SomeTest net;
+	private Network net;
 	private String path = "";
 	private String OSName = "";
 	private String vmManagerType;
@@ -50,9 +50,18 @@ public class TestSWT {
 	public static void main(String[] args) {
 		try {
 			TestSWT window = new TestSWT();
-			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public TestSWT() {
+		try {
+			open();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
 		}
 	}
 
@@ -76,7 +85,7 @@ public class TestSWT {
 	 */
 	protected void createContents() {
 		vmManagerType = vmHandler.vmType();
-		net = new SomeTest();
+		net = new Network();
 
 		OSImageList = vmHandler.getOSList();
 		Jlist = new JList<String>(OSImageList);
@@ -204,7 +213,8 @@ public class TestSWT {
 		More.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("More ");
+				new connection();
+				shell.dispose();
 			}
 		});
 	}
