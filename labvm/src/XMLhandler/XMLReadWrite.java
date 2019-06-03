@@ -148,9 +148,15 @@ public class XMLReadWrite {
 
 	}
 
-	public void WriteGeneralValue(String part, String attribute, String value) {
+	public void WriteGeneralValue(String name, String attribute, String value) {
 		/*
 		 * Useful to modify values like memory and stuff
+		 * This applies to part of the xml file where there is no heirachy, just a single tag
+		 * The Writing of the more specific part of the Vm should be defined somewhere else
+		 * ----------------------------------------------------------------------------------
+		 * name: name of the tag
+		 * attribute: attribute name defined within a tag, leave an empty String for empty attribute name.
+		 * value: value to be overwritten
 		 */
 		try {
 			File inputFile = new File(filePath);
@@ -164,7 +170,7 @@ public class XMLReadWrite {
 			// ---------------------------------------------------
 
 			// Devices--------------------------------------------
-			NodeList targetedPart = root.getElementsByTagName(part);
+			NodeList targetedPart = root.getElementsByTagName(name);
 
 			Node addr = targetedPart.item(0);
 
