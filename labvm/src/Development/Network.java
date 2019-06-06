@@ -10,6 +10,7 @@ import java.net.SocketException;
 import java.util.Vector;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.xml.sax.XMLReader;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -18,31 +19,40 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
+import XMLhandler.XMLReadWrite;
+
 public class Network {
-	private String SFTPHOST = "10.8.0.2";
-	private int SFTPPORT = 22;
-	private String SFTPUSER = "quang";
-	private String SFTPPASS = "xxxx";
-	private String SFTPWORKINGDIR = "/srv/tftp";
+	private String IP = "10.8.0.2";
+	private int port = 22;
+	private String userName = "quang";
+	private String passWord = "xxxx";
+	private String workingDir = "/srv/tftp";
 
 	private Session session = null;
 	private Channel channel = null;
 	private ChannelSftp channelSftp = null;
 	private FTPClient ftp;
-	private String connectionType = "";
+	private String connectionProtocol = "";
+	private XMLReadWrite xml;
 
-	public Network() {
+	public Network(String file) {
+		xml = new XMLReadWrite(file);
+		IP = xml.readValue("address");
+		port = Integer.parseInt(xml.readValue("port"));
+		userName = xml.readValue("user");
+		System.out.println(IP);
+		System.out.println(port);
 
 	}
 
 	public void makeSSHConnection(String server, String username, String pass) {
 		try {
 			JSch jsch = new JSch();
-			SFTPUSER = username;
-			SFTPPASS = pass;
-			SFTPHOST = server;
-			session = jsch.getSession(SFTPUSER, SFTPHOST, SFTPPORT);
-			session.setPassword(SFTPPASS);
+			userName = username;
+			passWord = pass;
+			IP = server;
+			session = jsch.getSession(userName, IP, port);
+			session.setPassword(passWord);
 			java.util.Properties config = new java.util.Properties();
 			config.put("StrictHostKeyChecking", "no");
 			session.setConfig(config);
@@ -50,9 +60,9 @@ public class Network {
 			channel = session.openChannel("sftp");
 			channel.connect();
 			channelSftp = (ChannelSftp) channel;
-			channelSftp.cd(SFTPWORKINGDIR);
+			channelSftp.cd(workingDir);
 			System.out.println("success");
-			connectionType = "SSH";
+			connectionProtocol = "SSH";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -62,10 +72,10 @@ public class Network {
 
 		try {
 			System.out.println(filename);
-			if (connectionType.equals("SSH")) {
+			if (connectionProtocol.equals("SSH")) {
 				System.out.println(path);
 				this.channelSftp.get(path, "/home/quang/" + filename);
-			} else if (connectionType.equals("FTP")) {
+			} else if (connectionProtocol.equals("FTP")) {
 				System.out.println(path);
 				FileOutputStream fos = new FileOutputStream("/home/quang/" + filename);
 				ftp.retrieveFile(path, fos);
@@ -80,7 +90,7 @@ public class Network {
 	}
 
 	public void uploadFile(String filename) {
-		String pathFile = SFTPWORKINGDIR + filename;
+		String pathFile = workingDir + filename;
 		try {
 			this.channelSftp.put("/source/remote/path/file.zip", "C:/target/local/path/file.zip");
 		} catch (SftpException e) {
@@ -91,7 +101,7 @@ public class Network {
 
 	public void listFile() {
 		try {
-			Vector filelist = channelSftp.ls(SFTPWORKINGDIR);
+			Vector filelist = channelSftp.ls(workingDir);
 			for (int i = 0; i < filelist.size(); i++) {
 //				System.out.println(filelist.get(i).toString());
 				LsEntry entry = (LsEntry) filelist.get(i);
@@ -104,14 +114,14 @@ public class Network {
 
 	public void makeFTPConnection(String server, String username, String pass) {
 		ftp = new FTPClient();
-		SFTPHOST = username;
-		SFTPPASS = pass;
-		SFTPHOST = server;
+		IP = username;
+		passWord = pass;
+		IP = server;
 		try {
-			ftp.connect(SFTPHOST, 21);
-			ftp.login(SFTPUSER, SFTPPASS);
+			ftp.connect(IP, 21);
+			ftp.login(userName, passWord);
 //			ftp.enterLocalActiveMode();
-			connectionType = "FTP";
+			connectionProtocol = "FTP";
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -140,10 +150,10 @@ public class Network {
 	}
 	public void terminateConnection() {
 		try {
-			if (connectionType.equals("FTP")) {
+			if (connectionProtocol.equals("FTP")) {
 				ftp.logout();
 				ftp.disconnect();
-			} else if (connectionType.equals("SSH")) {
+			} else if (connectionProtocol.equals("SSH")) {
 				channelSftp.disconnect();
 				session.disconnect();
 				System.out.println("done");
@@ -152,6 +162,10 @@ public class Network {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public String connectionType()
+	{
+		return connectionProtocol;
 	}
 
 }

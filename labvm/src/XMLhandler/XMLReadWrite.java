@@ -1,9 +1,11 @@
 package XMLhandler;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -12,12 +14,15 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 import BackEnd_Misc.CommandExecutor;
 
 public class XMLReadWrite {
 	private String filePath;
 	private CommandExecutor linuxCommandExecutor = new CommandExecutor();
+	private Document doc;
+	public String readResult="";
 
 	public XMLReadWrite(String pathToFile) {
 		filePath = pathToFile;
@@ -44,7 +49,7 @@ public class XMLReadWrite {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			dbFactory.setValidating(true);
 			dbFactory.setIgnoringElementContentWhitespace(true);
-			Document doc = dBuilder.parse(inputFile);
+			doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
 			// ---------------------------------------------------
@@ -100,7 +105,7 @@ public class XMLReadWrite {
 			dbFactory.setValidating(true);
 			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
+			doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
 			// ---------------------------------------------------
@@ -164,7 +169,7 @@ public class XMLReadWrite {
 			dbFactory.setValidating(true);
 			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
+			doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
 			// ---------------------------------------------------
@@ -209,7 +214,7 @@ public class XMLReadWrite {
 			dbFactory.setValidating(true);
 			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
+			doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
 			// ---------------------------------------------------
@@ -245,7 +250,7 @@ public class XMLReadWrite {
 			dbFactory.setValidating(true);
 			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
+			doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
 			// ---------------------------------------------------
@@ -290,7 +295,7 @@ public class XMLReadWrite {
 			dbFactory.setValidating(true);
 			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
+			doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
 			// ---------------------------------------------------
@@ -333,7 +338,7 @@ public class XMLReadWrite {
 			dbFactory.setValidating(true);
 			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
+			doc = dBuilder.parse(inputFile);
 			// root element------------------------------------------
 			Element root = doc.getDocumentElement();
 			NodeList devicesNodeList = root.getElementsByTagName("devices");
@@ -356,5 +361,35 @@ public class XMLReadWrite {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	public String readValue(String nodeName)
+	{
+		
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			doc = dBuilder.parse(filePath);
+			doc.getDocumentElement().normalize();
+			Element root = doc.getDocumentElement();
+			// ---------------------------------------------------
+
+			// Devices--------------------------------------------
+			NodeList targetedPart = root.getElementsByTagName(nodeName);
+			Node nNode = targetedPart.item(0);
+			
+			readResult = nNode.getTextContent();
+			
+			
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return readResult;
 	}
 }

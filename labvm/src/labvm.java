@@ -14,10 +14,7 @@ public class labvm {
 	public static void main(String args[]) throws IOException {
 //		GeneralVMHandler vmHandler = new virshHandler();
 //		new OSSelectionGUI(vmHandler);
-		Network tt = new Network();
-		tt.makeFTPConnection("192.168.20.128", "quang", "kalimdor");
-		tt.downloadFile("/home/quang/test.ovpn", "test.ovpn");
-		tt.terminateConnection();
+		Network tt = new Network("/home/quang/virsh/TestOS/miscprop.xml");
 
 //		new TestUI();
 	}

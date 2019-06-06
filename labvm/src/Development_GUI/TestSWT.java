@@ -85,7 +85,7 @@ public class TestSWT {
 	 */
 	protected void createContents() {
 		vmManagerType = vmHandler.vmType();
-		net = new Network();
+		//net = new Network();
 
 		OSImageList = vmHandler.getOSList();
 		Jlist = new JList<String>(OSImageList);
