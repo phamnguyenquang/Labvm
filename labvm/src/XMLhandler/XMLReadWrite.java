@@ -364,7 +364,11 @@ public class XMLReadWrite {
 	}
 	public String readValue(String nodeName)
 	{
-		
+		/*
+		 * Read a value from a single node instance.
+		 * Return as a string
+		 * TODO: Will change as fit.
+		 */
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

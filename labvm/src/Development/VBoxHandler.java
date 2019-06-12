@@ -51,4 +51,10 @@ public class VBoxHandler extends GeneralVMHandler {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void DeployNewVM(String name) {
+		// TODO Auto-generated method stub
+		
+	}
 }

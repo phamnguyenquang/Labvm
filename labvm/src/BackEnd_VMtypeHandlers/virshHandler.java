@@ -136,7 +136,16 @@ public class virshHandler extends GeneralVMHandler {
 		displayVM(name);
 		bw.startCommand("sudo virsh undefine " + name);
 	}
-
+	
+	public void DeployNewVM(String name)
+	{
+		String path="mkdir /home/"+user+"/virsh/"+name;
+		String pathDef="mkdir /home/"+user+"/virsh/.config/DefOS.xml";
+		bw.startCommand("mkdir "+path);
+		bw.startCommand("cp "+ pathDef+ " "+path+"/DefOS.xml");
+		
+	}
+	
 	@Override
 	public String vmType() {
 		// TODO Auto-generated method stub

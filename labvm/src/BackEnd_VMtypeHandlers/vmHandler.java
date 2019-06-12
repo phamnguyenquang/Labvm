@@ -68,4 +68,10 @@ public class vmHandler extends GeneralVMHandler {
 		return "kvm";
 	}
 
+	@Override
+	public void DeployNewVM(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
