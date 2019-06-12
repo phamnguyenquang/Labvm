@@ -7,6 +7,8 @@ import BackEnd_Misc.CommandExecutor;
 import BackEnd_VMtypeHandlers.GeneralVMHandler;
 import BackEnd_VMtypeHandlers.virshHandler;
 import Development.Network;
+import GUI.ShowWaitAction;
+import GUI.TextInputFieldGUI;
 
 import org.eclipse.swt.widgets.Button;
 
@@ -18,6 +20,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -31,7 +34,7 @@ import org.eclipse.swt.widgets.Text;
 public class TestSWT {
 
 	protected Shell shell;
-	private CommandExecutor bw;
+	private CommandExecutor bw = new CommandExecutor();
 	private GeneralVMHandler vmHandler = new virshHandler();
 	private DefaultListModel<String> OSImageList = new DefaultListModel<String>();
 	private JScrollPane scrollPane;
@@ -41,6 +44,7 @@ public class TestSWT {
 	private String OSName = "";
 	private String vmManagerType;
 	private Text text;
+	private Display display;
 
 	/**
 	 * Launch the application.
@@ -54,12 +58,11 @@ public class TestSWT {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public TestSWT() {
 		try {
 			open();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO: handle exception
 		}
@@ -69,7 +72,7 @@ public class TestSWT {
 	 * Open the window.
 	 */
 	public void open() {
-		Display display = Display.getDefault();
+		display = Display.getDefault();
 		createContents();
 		shell.open();
 		shell.layout();
@@ -85,7 +88,7 @@ public class TestSWT {
 	 */
 	protected void createContents() {
 		vmManagerType = vmHandler.vmType();
-		//net = new Network();
+		// net = new Network();
 
 		OSImageList = vmHandler.getOSList();
 		Jlist = new JList<String>(OSImageList);
@@ -127,7 +130,7 @@ public class TestSWT {
 
 		Shutdown.setBounds(161, -3, 81, 29);
 		Shutdown.setText("Shutdown");
-		
+
 		Button Restart = new Button(shell, SWT.NONE);
 		Restart.setBounds(242, -3, 81, 34);
 		Restart.setText("Restart");
@@ -184,8 +187,6 @@ public class TestSWT {
 		});
 		text.setText("Read Only");
 
-
-
 		Sync.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -213,8 +214,8 @@ public class TestSWT {
 		More.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				new connection();
-				shell.dispose();
+				new TextInputFieldGUI(OSName, "/home/quang/virsh/TestOS", "backup");
+				
 			}
 		});
 	}

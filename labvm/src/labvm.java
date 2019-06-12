@@ -12,9 +12,9 @@ import XMLhandler.XMLReadWrite;
 public class labvm {
 
 	public static void main(String args[]) throws IOException {
-//		GeneralVMHandler vmHandler = new virshHandler();
-//		new OSSelectionGUI(vmHandler);
-		Network tt = new Network("/home/quang/virsh/TestOS/miscprop.xml");
+		GeneralVMHandler vmHandler = new virshHandler();
+		new OSSelectionGUI(vmHandler);
+//		Network tt = new Network("/home/quang/virsh/TestOS/miscprop.xml");
 
 //		new TestUI();
 	}
