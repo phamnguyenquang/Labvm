@@ -51,13 +51,13 @@ public class TestSWT {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		try {
-			TestSWT window = new TestSWT();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		try {
+//			TestSWT window = new TestSWT();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	public TestSWT() {
 		try {
@@ -94,14 +94,14 @@ public class TestSWT {
 		Jlist = new JList<String>(OSImageList);
 		// --------------------------------------------------------
 		shell = new Shell();
-		shell.setSize(800, 600);
+		shell.setSize(800, 615);
 		shell.setText("SWT Application");
 		shell.setLayout(null);
 
-		Button btnNewButton = new Button(shell, SWT.NONE);
+		Button Start = new Button(shell, SWT.NONE);
 
-		btnNewButton.setBounds(0, 0, 56, 26);
-		btnNewButton.setText("Start");
+		Start.setBounds(0, 557, 56, 26);
+		Start.setText("Start");
 
 		SashForm sashForm = new SashForm(shell, SWT.NONE);
 		sashForm.setBounds(0, 26, 782, 531);
@@ -118,25 +118,25 @@ public class TestSWT {
 
 		Button Sync = new Button(shell, SWT.NONE);
 
-		Sync.setBounds(56, 0, 56, 26);
+		Sync.setBounds(54, -3, 56, 29);
 		Sync.setText("Sync");
 
 		Button Root = new Button(shell, SWT.NONE);
 
-		Root.setBounds(109, -3, 56, 29);
+		Root.setBounds(0, -3, 56, 29);
 		Root.setText("Root");
 
 		Button Shutdown = new Button(shell, SWT.NONE);
 
-		Shutdown.setBounds(161, -3, 81, 29);
+		Shutdown.setBounds(171, 557, 81, 26);
 		Shutdown.setText("Shutdown");
 
 		Button Restart = new Button(shell, SWT.NONE);
-		Restart.setBounds(242, -3, 81, 34);
+		Restart.setBounds(250, 557, 81, 26);
 		Restart.setText("Restart");
 
 		Button More = new Button(shell, SWT.NONE);
-		More.setBounds(323, -3, 81, 34);
+		More.setBounds(106, -3, 81, 34);
 		More.setText("More");
 		// ------------------------------------------------------------
 
@@ -149,8 +149,14 @@ public class TestSWT {
 				System.out.println(path);
 			}
 		});
+		text.setText("Read Only");
+		
+		Button StartSave = new Button(shell, SWT.NONE);
 
-		btnNewButton.addSelectionListener(new SelectionAdapter() {
+		StartSave.setBounds(54, 557, 122, 26);
+		StartSave.setText("Start and Write");
+
+		Start.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (path == "" || path == null) {
@@ -185,8 +191,14 @@ public class TestSWT {
 				System.out.println(path);
 			}
 		});
-		text.setText("Read Only");
+;
 
+		
+		StartSave.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
 		Sync.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -214,7 +226,7 @@ public class TestSWT {
 		More.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				new TextInputFieldGUI(OSName, "/home/quang/virsh/TestOS", "backup");
+				new TextInputFieldGUI("Please Enter the name for Backing up", "/home/quang/virsh/TestOS", "backup");
 				
 			}
 		});

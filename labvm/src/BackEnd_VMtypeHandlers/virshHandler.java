@@ -1,5 +1,6 @@
 package BackEnd_VMtypeHandlers;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.DefaultListModel;
@@ -22,7 +23,7 @@ public class virshHandler extends GeneralVMHandler {
 		bw.startCommand("sudo virsh connect qemu:///system");
 		bw.startCommand("whoami");
 		user = bw.getResult();
-		xml = new XMLReadWrite("/home/"+user+"/virsh/.config/DefOS.xml");
+		xml = new XMLReadWrite("/home/" + user + "/virsh/.config/DefOS.xml");
 	}
 
 	private void displayVM(String name) {
@@ -84,22 +85,25 @@ public class virshHandler extends GeneralVMHandler {
 	public void startSnapShotFrom(String name) {
 		shutdownVM(name);
 		bw.startCommand("sudo virsh undefine " + name);
-		String path = "/home/" + user + "/virsh/.config/DefOS.xml";
-		String pathbak = "/home/" + user + "/virsh/.config/DefOSbak.xml";
-		bw.startCommand("cp "+ pathbak+" "+path);
-		pciConfiguration pci;
-		try {
-			pci = new pciConfiguration(path);
-			pci.removeInterfaceFromXML();
-			pci.writeInterfaceToXML();
-			pci.setInterfacesDown();
-			xml.modifyDisk("/home/" + user + "/virsh/" + name + "/linux.img");
-			xml.removeHostDevices();
-			xml.addHostDevice("0000:06:00.0");
-			xml.WriteGeneralValue("name", "", name);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String path = "/home/" + user + "/virsh/" + name + "/DefOS.xml";
+		File testPath = new File(path);
+		if (!testPath.exists()) {
+			String pathbak = "/home/" + user + "/virsh/.config/DefOSbak.xml";
+			bw.startCommand("cp " + pathbak + " " + path);
+			pciConfiguration pci;
+			try {
+				pci = new pciConfiguration(path);
+				pci.removeInterfaceFromXML();
+				pci.writeInterfaceToXML();
+				pci.setInterfacesDown();
+				xml.modifyDisk("/home/" + user + "/virsh/" + name + "/linux.img");
+				xml.removeHostDevices();
+				xml.addHostDevice("0000:06:00.0");
+				xml.WriteGeneralValue("name", "", name);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		defineVM(path);
 		createSnapshotCurrent(name);
@@ -114,9 +118,41 @@ public class virshHandler extends GeneralVMHandler {
 	public void startVM(String name) {
 		shutdownVM(name);
 		bw.startCommand("sudo virsh undefine " + name);
-		String path = "/home/" + user + "/virsh/.config/DefOS.xml";
+		String path = "/home/" + user + "/virsh/" + name + "/DefOS.xml";
+		File testPath = new File(path);
+		if (!testPath.exists()) {
+			String pathbak = "/home/" + user + "/virsh/.config/DefOSbak.xml";
+			bw.startCommand("cp " + pathbak + " " + path);
+			pciConfiguration pci;
+			try {
+				pci = new pciConfiguration(path);
+				pci.removeInterfaceFromXML();
+				pci.writeInterfaceToXML();
+				pci.setInterfacesDown();
+				xml.modifyDisk("/home/" + user + "/virsh/" + name + "/linux.img");
+				xml.removeHostDevices();
+				xml.addHostDevice("0000:06:00.0");
+				xml.WriteGeneralValue("name", "", name);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		defineVM(path);
+		bw.startCommand("sudo virsh start " + name);
+		displayVM(name);
+		bw.startCommand("sudo virsh undefine " + name);
+	}
+
+	public void DeployNewVM(String name) {
+		String path = "mkdir /home/" + user + "/virsh/" + name;
+		String pathDef = "mkdir /home/" + user + "/virsh/.config/DefOS.xml";
+		String pathXML = "/home/" + user + "/virsh/" + name + "/DefOS.xml";
 		String pathbak = "/home/" + user + "/virsh/.config/DefOSbak.xml";
-		bw.startCommand("cp "+ pathbak+" "+path);
+		bw.startCommand("mkdir " + path);
+		bw.startCommand("cp " + pathDef + " " + path + "/DefOS.xml");
+		bw.startCommand("cp " + pathbak + " " + pathXML);
 		pciConfiguration pci;
 		try {
 			pci = new pciConfiguration(path);
@@ -131,21 +167,9 @@ public class virshHandler extends GeneralVMHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		defineVM(path);
-		bw.startCommand("sudo virsh start " + name);
-		displayVM(name);
-		bw.startCommand("sudo virsh undefine " + name);
+		// TODO: Write General xml config for permission and etc
 	}
-	
-	public void DeployNewVM(String name)
-	{
-		String path="mkdir /home/"+user+"/virsh/"+name;
-		String pathDef="mkdir /home/"+user+"/virsh/.config/DefOS.xml";
-		bw.startCommand("mkdir "+path);
-		bw.startCommand("cp "+ pathDef+ " "+path+"/DefOS.xml");
-		
-	}
-	
+
 	@Override
 	public String vmType() {
 		// TODO Auto-generated method stub
