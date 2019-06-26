@@ -22,9 +22,17 @@ public class XMLReadWrite {
 	private String filePath;
 	private CommandExecutor linuxCommandExecutor = new CommandExecutor();
 	private Document doc;
-	public String readResult="";
+	public String readResult = "";
 
 	public XMLReadWrite(String pathToFile) {
+		filePath = pathToFile;
+	}
+
+	public XMLReadWrite() {
+
+	}
+
+	public void setFile(String pathToFile) {
 		filePath = pathToFile;
 	}
 
@@ -155,13 +163,13 @@ public class XMLReadWrite {
 
 	public void WriteGeneralValue(String name, String attribute, String value) {
 		/*
-		 * Useful to modify values like memory and stuff
-		 * This applies to part of the xml file where there is no heirachy, just a single tag
-		 * The Writing of the more specific part of the Vm should be defined somewhere else
-		 * ----------------------------------------------------------------------------------
-		 * name: name of the tag
-		 * attribute: attribute name defined within a tag, leave an empty String for empty attribute name.
-		 * value: value to be overwritten
+		 * Useful to modify values like memory and stuff This applies to part of the xml
+		 * file where there is no heirachy, just a single tag The Writing of the more
+		 * specific part of the Vm should be defined somewhere else
+		 * -----------------------------------------------------------------------------
+		 * ----- name: name of the tag attribute: attribute name defined within a tag,
+		 * leave an empty String for empty attribute name. value: value to be
+		 * overwritten
 		 */
 		try {
 			File inputFile = new File(filePath);
@@ -362,12 +370,11 @@ public class XMLReadWrite {
 			e.printStackTrace();
 		}
 	}
-	public String readValue(String nodeName)
-	{
+
+	public String readValue(String nodeName) {
 		/*
-		 * Read a value from a single node instance.
-		 * Return as a string
-		 * TODO: Will change as fit.
+		 * Read a value from a single node instance. Return as a string TODO: Will
+		 * change as fit.
 		 */
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -380,10 +387,9 @@ public class XMLReadWrite {
 			// Devices--------------------------------------------
 			NodeList targetedPart = root.getElementsByTagName(nodeName);
 			Node nNode = targetedPart.item(0);
-			
+
 			readResult = nNode.getTextContent();
-			
-			
+
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

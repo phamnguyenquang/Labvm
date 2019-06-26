@@ -92,6 +92,7 @@ public class virshHandler extends GeneralVMHandler {
 			bw.startCommand("cp " + pathbak + " " + path);
 			pciConfiguration pci;
 			try {
+				xml.setFile(path);
 				pci = new pciConfiguration(path);
 				pci.removeInterfaceFromXML();
 				pci.writeInterfaceToXML();
@@ -125,6 +126,7 @@ public class virshHandler extends GeneralVMHandler {
 			bw.startCommand("cp " + pathbak + " " + path);
 			pciConfiguration pci;
 			try {
+				xml.setFile(path);
 				pci = new pciConfiguration(path);
 				pci.removeInterfaceFromXML();
 				pci.writeInterfaceToXML();

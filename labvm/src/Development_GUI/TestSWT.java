@@ -147,6 +147,7 @@ public class TestSWT {
 				String path1 = "/home/$(whoami)/virsh/";
 				path = "/home/$(whoami)/virsh/" + '"' + OSName + '"';
 				System.out.println(path);
+				text.setText(OSName);
 			}
 		});
 		text.setText("Read Only");

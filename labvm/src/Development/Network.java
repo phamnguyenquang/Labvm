@@ -163,6 +163,14 @@ public class Network {
 			e.printStackTrace();
 		}
 	}
+	public void pull(String name)
+	{
+		
+	}
+	public void push(String name)
+	{
+	
+	}
 	public String connectionType()
 	{
 		return connectionProtocol;
