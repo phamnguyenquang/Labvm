@@ -402,4 +402,96 @@ public class XMLReadWrite {
 		}
 		return readResult;
 	}
+	/*
+	 * The Features below are still in Beta
+	 * Uses with cautions
+	 * 
+	 */
+	public void addNatInterface(String networkname, String MAC)
+	{
+		try {
+			File inputFile = new File(filePath);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			doc = dBuilder.parse(inputFile);
+			// root element------------------------------------------
+			Element root = doc.getDocumentElement();
+			// ---------------------------------------------------
+
+			// Devices--------------------------------------------
+			NodeList devicesNodeList = root.getElementsByTagName("devices");
+			Node hostdevNodeList = devicesNodeList.item(0);
+
+			Element source = doc.createElement("source");
+			source.setAttribute("network", networkname);
+			
+			Element iface = doc.createElement("interface");
+			iface.setAttribute("type", "network");
+
+			Element mac = doc.createElement("mac");
+			mac.setAttribute("address", MAC);
+
+			iface.appendChild(source);
+			iface.appendChild(mac);
+			hostdevNodeList.appendChild(iface);
+			/*
+			 * Up next, save the file, actual saving
+			 */
+			TransformerFactory transformerfactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerfactory.newTransformer();
+			DOMSource domSource = new DOMSource(doc);
+
+			StreamResult streamResult = new StreamResult(new File(filePath));
+			transformer.transform(domSource, streamResult);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void addBridgeInterface(String bridgeName, String MAC, String modelType) {
+		try {
+			File inputFile = new File(filePath);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			doc = dBuilder.parse(inputFile);
+			// root element------------------------------------------
+			Element root = doc.getDocumentElement();
+			// ---------------------------------------------------
+
+			// Devices--------------------------------------------
+			NodeList devicesNodeList = root.getElementsByTagName("devices");
+			Node hostdevNodeList = devicesNodeList.item(0);
+
+			Element source = doc.createElement("source");
+			source.setAttribute("bridge", bridgeName);
+			
+			Element iface = doc.createElement("interface");
+			iface.setAttribute("type", "bridge");
+
+			Element mac = doc.createElement("mac");
+			mac.setAttribute("address", MAC);
+			
+			Element model = doc.createElement("model");
+			model.setAttribute("type", modelType);
+
+			iface.appendChild(source);
+			iface.appendChild(mac);
+			iface.appendChild(model);
+			hostdevNodeList.appendChild(iface);
+			/*
+			 * Up next, save the file, actual saving
+			 */
+			TransformerFactory transformerfactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerfactory.newTransformer();
+			DOMSource domSource = new DOMSource(doc);
+
+			StreamResult streamResult = new StreamResult(new File(filePath));
+			transformer.transform(domSource, streamResult);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
