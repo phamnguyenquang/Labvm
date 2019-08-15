@@ -78,9 +78,19 @@ public class virshHandler extends GeneralVMHandler {
 	}
 
 	/*
-	 * start snapshot = no saving: 1.Re-define VM 2.Create snapshot from current
+	 * -start snapshot = no saving: 1.Re-define VM 2.Create snapshot from current
 	 * disk 3.Start VM and do stuffs. 4.Restore back the VHD from snapshot 5.Delete
 	 * snapshot
+	 * -As we want to make host PCI passthrough, we may need to re-write the PCI bus 
+	 * value and the NIC name for all the desired interface since the mapping of the
+	 * PCI value as well as the NIC name (may be derived from the PCI Bus- device-function 
+	 * mapping) may be changed for every booting (esp when new hardware is installed).
+	 * This especially applies to wireless NIC. Therefore the XML must be modified every
+	 * time
+	 * this type of VM is called
+	 * 
+	 * -For VMs without PCI passthrough, the steps mentioned are unnecessary.
+	 * 
 	 */
 	public void startSnapShotFrom(String name) {
 		shutdownVM(name);

@@ -402,13 +402,12 @@ public class XMLReadWrite {
 		}
 		return readResult;
 	}
+
 	/*
-	 * The Features below are still in Beta
-	 * Uses with cautions
+	 * The Features below are still in Beta Uses with cautions
 	 * 
 	 */
-	public void addNatInterface(String networkname, String MAC)
-	{
+	public void addNatInterface(String networkname, String MAC) {
 		try {
 			File inputFile = new File(filePath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -426,7 +425,7 @@ public class XMLReadWrite {
 
 			Element source = doc.createElement("source");
 			source.setAttribute("network", networkname);
-			
+
 			Element iface = doc.createElement("interface");
 			iface.setAttribute("type", "network");
 
@@ -449,6 +448,7 @@ public class XMLReadWrite {
 			e.printStackTrace();
 		}
 	}
+
 	public void addBridgeInterface(String bridgeName, String MAC, String modelType) {
 		try {
 			File inputFile = new File(filePath);
@@ -467,19 +467,23 @@ public class XMLReadWrite {
 
 			Element source = doc.createElement("source");
 			source.setAttribute("bridge", bridgeName);
-			
+
 			Element iface = doc.createElement("interface");
 			iface.setAttribute("type", "bridge");
 
 			Element mac = doc.createElement("mac");
 			mac.setAttribute("address", MAC);
-			
+
 			Element model = doc.createElement("model");
 			model.setAttribute("type", modelType);
 
 			iface.appendChild(source);
-			iface.appendChild(mac);
-			iface.appendChild(model);
+			if (!MAC.isEmpty()) {
+				iface.appendChild(mac);
+			}
+			if (!modelType.isEmpty()) {
+				iface.appendChild(model);
+			}
 			hostdevNodeList.appendChild(iface);
 			/*
 			 * Up next, save the file, actual saving

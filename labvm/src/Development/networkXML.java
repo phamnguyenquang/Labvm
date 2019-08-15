@@ -38,8 +38,9 @@ public class networkXML {
 		 * to part of the xml file where there is no heirachy, just a single tag The
 		 * Writing of the more specific part of the Vm should be defined somewhere else
 		 * -----------------------------------------------------------------------------
-		 * ----- name: name of the tag attribute: attribute name defined within a tag,
-		 * leave an empty String for empty attribute name. value: value to be
+		 * ----- name: name of the tag ----- attribute: attribute name defined within a
+		 * tag, ----- value: the specified value for the attribute (a.k.a attribute
+		 * value xD ) leave an empty String for empty attribute name. value: value to be
 		 * overwritten
 		 */
 		try {
@@ -116,6 +117,33 @@ public class networkXML {
 			StreamResult streamResult = new StreamResult(new File(filePath));
 			transformer.transform(domSource, streamResult);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addNatMode(String IpStart, String IpStop, String PortStart, String PortEnd)
+	{
+		try {
+		File inputFile = new File(filePath);
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		dbFactory.setValidating(true);
+		dbFactory.setIgnoringElementContentWhitespace(true);
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		doc = dBuilder.parse(inputFile);
+		// root element------------------------------------------
+		Element root = doc.getDocumentElement();
+		NodeList forwardList=root.getElementsByTagName("forward");
+		for(int i=0; i < forwardList.getLength();++i)
+		{
+			root.removeChild(forwardList.item(i));
+		}
+		Element forward = doc.createElement("forward");
+		forward.setAttribute("mode", "nat");
+		
+		
+	}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
