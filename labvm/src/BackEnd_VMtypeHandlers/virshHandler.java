@@ -158,8 +158,8 @@ public class virshHandler extends GeneralVMHandler {
 	}
 
 	public void DeployNewVM(String name) {
-		String path = "mkdir /home/" + user + "/virsh/" + name;
-		String pathDef = "mkdir /home/" + user + "/virsh/.config/DefOS.xml";
+		String path = "/opt/OSkvm/"+name;
+		String pathDef = "/home/" + user + "/virsh/.config/DefOS.xml";
 		String pathXML = "/home/" + user + "/virsh/" + name + "/DefOS.xml";
 		String pathbak = "/home/" + user + "/virsh/.config/DefOSbak.xml";
 		bw.startCommand("mkdir " + path);
@@ -167,15 +167,8 @@ public class virshHandler extends GeneralVMHandler {
 		bw.startCommand("cp " + pathbak + " " + pathXML);
 		pciConfiguration pci;
 		try {
-			pci = new pciConfiguration(path);
-			pci.removeInterfaceFromXML();
-			pci.writeInterfaceToXML();
-			pci.setInterfacesDown();
-			xml.modifyDisk("/home/" + user + "/virsh/" + name + "/linux.img");
-			xml.removeHostDevices();
-			xml.addHostDevice("0000:06:00.0");
-			xml.WriteGeneralValue("name", "", name);
-		} catch (IOException e) {
+			bw.startCommand("pwd");
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

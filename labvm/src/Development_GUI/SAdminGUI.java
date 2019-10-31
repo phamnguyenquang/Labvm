@@ -2,6 +2,9 @@ package Development_GUI;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+
+import GUI.TextInputFieldGUI;
+
 import org.eclipse.swt.custom.ScrolledComposite;
 
 import javax.swing.JOptionPane;
@@ -18,6 +21,7 @@ public class SAdminGUI {
 	protected Shell shell;
 	private String[] functionList = { "Client Configuration","Create New VM", "Parameter Setup", "Exit" };
 	private String selectedFunction;
+	private String generalParameter;
 
 	/**
 	 * Launch the application.

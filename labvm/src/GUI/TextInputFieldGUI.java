@@ -25,7 +25,7 @@ public class TextInputFieldGUI {
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private String tittle;
-	private String dirPath;
+	private String generalParameter;
 	private CommandExecutor command;
 	private String action;
 
@@ -34,10 +34,10 @@ public class TextInputFieldGUI {
 	 * 
 	 * @param ioArea
 	 */
-	public TextInputFieldGUI(String title, String path, String act) {
+	public TextInputFieldGUI(String title, String parameter, String act) {
 		initialize(title);
 		tittle = title;
-		dirPath = path;
+		generalParameter = parameter;
 		action = act;
 		command = new CommandExecutor();
 	}
@@ -84,14 +84,19 @@ public class TextInputFieldGUI {
 						text = textField.getText();
 						switch (action) {
 						case "backup": {
-							String backupPath = dirPath + "/backup/" + text + ".img";
+							String backupPath = generalParameter + "/backup/" + text + ".img";
 //							System.out.println("sudo cp " + dirPath + "/linux.img " + backupPath);
-							command.startCommand("sudo cp " + dirPath + "/linux.img " + backupPath);
+							command.startCommand("sudo cp " + generalParameter + "/linux.img " + backupPath);
 							frame.dispose();
 //							command.startCommand("sudo cp " + dirPath + "/linux.img " + backupPath);
 							JOptionPane.showMessageDialog(null, "Backup Created", "Notice", 1);
 							break;
 							}
+						case "new": {
+							System.out.println("test");
+							frame.dispose();
+							break;
+						}
 						}
 						Thread.sleep(3000);
 						return null;
