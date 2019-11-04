@@ -1,4 +1,4 @@
-package Development_GUI;
+package GUI;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -7,8 +7,7 @@ import BackEnd_Misc.CommandExecutor;
 import BackEnd_VMtypeHandlers.GeneralVMHandler;
 import BackEnd_VMtypeHandlers.virshHandler;
 import Development.Network;
-import GUI.ShowWaitAction;
-import GUI.TextInputFieldGUI;
+import XMLhandler.XMLReadWrite;
 
 import org.eclipse.swt.widgets.Button;
 
@@ -30,6 +29,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Text;
+import org.xml.sax.XMLReader;
 
 public class TestSWT {
 
@@ -44,6 +44,8 @@ public class TestSWT {
 	private String OSName = "";
 	private String vmManagerType;
 	private Text text;
+	private String user;
+	private XMLReadWrite xml;
 	private Display display;
 
 	/**
@@ -61,6 +63,9 @@ public class TestSWT {
 
 	public TestSWT() {
 		try {
+			bw.startCommand("whoami");
+			user = bw.getResult();
+			xml = new XMLReadWrite();
 			open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,8 +114,10 @@ public class TestSWT {
 		// ----------------------------------------------------------
 		List list = new List(sashForm, SWT.BORDER);
 
-		text = new Text(sashForm, SWT.READ_ONLY | SWT.BORDER);
+		text = new Text(sashForm, SWT.READ_ONLY | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		sashForm.setWeights(new int[] { 180, 599 });
+
+		text.setText("Read Only");
 
 		for (int i = 0; i < Jlist.getModel().getSize(); ++i) {
 			list.add(Jlist.getModel().getElementAt(i));
@@ -144,14 +151,14 @@ public class TestSWT {
 			public void widgetSelected(SelectionEvent e) {
 				OSName = list.getItem(list.getSelectionIndex()).toString();
 //				OSName = list.getSelection().toString();
-				String path1 = "/home/$(whoami)/virsh/";
-				path = "/home/$(whoami)/virsh/" + '"' + OSName + '"';
+				String path1 = "/home/" + user + "/virsh/";
+				path = "/home/" + user + "/virsh/" + '"' + OSName + '"';
+				xml.setFile(path+"/DefOS.xml");
 				System.out.println(path);
-				text.setText(OSName);
+//				text.setText(OSName + "\n" + "Memory: " + xml.readValue("memory"));
 			}
 		});
-		text.setText("Read Only");
-		
+
 		Button StartSave = new Button(shell, SWT.NONE);
 
 		StartSave.setBounds(54, 557, 122, 26);
@@ -192,9 +199,8 @@ public class TestSWT {
 				System.out.println(path);
 			}
 		});
-;
+		;
 
-		
 		StartSave.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -228,7 +234,7 @@ public class TestSWT {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				new TextInputFieldGUI("Please Enter the name for Backing up", "/home/quang/virsh/TestOS", "backup");
-				
+
 			}
 		});
 	}

@@ -1,10 +1,7 @@
-package Development_GUI;
+package GUI;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-
-import GUI.TextInputFieldGUI;
-
 import org.eclipse.swt.custom.ScrolledComposite;
 
 import javax.swing.JOptionPane;
@@ -19,7 +16,7 @@ import org.eclipse.swt.widgets.List;
 public class SAdminGUI {
 
 	protected Shell shell;
-	private String[] functionList = { "Client Configuration","Create New VM", "Parameter Setup", "Exit" };
+	private String[] functionList = { "Client Configuration", "Create New VM(s)","Clone Existing VM(s)", "Parameter Setup", "Exit" };
 	private String selectedFunction;
 	private String generalParameter;
 
@@ -114,8 +111,21 @@ public class SAdminGUI {
 					JOptionPane.showMessageDialog(null, "Under Construction", "Notice", 1);
 					break;
 				}
-				case "Create New VM": {
+				case "Create New VM(s)": {
 					JOptionPane.showMessageDialog(null, "Under Construction", "Notice", 1);
+					break;
+				}
+				case "Clone Existing VM(s)": {
+					JOptionPane.showMessageDialog(null, "Under Construction", "Notice", 1);
+					break;
+				}
+				case "Exit": {
+					int rep = JOptionPane.showConfirmDialog(null, "Are you sure that you want to exit?", "Confirmation",
+							JOptionPane.YES_NO_OPTION);
+					if (rep == JOptionPane.YES_OPTION) {
+						System.exit(0);
+					}
+
 					break;
 				}
 				default: {

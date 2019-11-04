@@ -6,8 +6,7 @@ import BackEnd_VMtypeHandlers.GeneralVMHandler;
 import BackEnd_VMtypeHandlers.virshHandler;
 import BackEnd_VMtypeHandlers.vmHandler;
 import Development.Network;
-import Development_GUI.TestSWT;
-import GUI.OSSelectionGUI;
+import GUI.TestSWT;
 import XMLhandler.XMLReadWrite;
 
 public class labvm {

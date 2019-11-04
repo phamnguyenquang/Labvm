@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 import BackEnd_Misc.CommandExecutor;
 
 public class XMLReadWrite {
-	private String filePath;
+	private String filePath="";
 	private CommandExecutor linuxCommandExecutor = new CommandExecutor();
 	private Document doc;
 	public String readResult = "";
@@ -378,6 +378,8 @@ public class XMLReadWrite {
 		 */
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setValidating(true);
+			dbFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			doc = dBuilder.parse(filePath);
 			doc.getDocumentElement().normalize();

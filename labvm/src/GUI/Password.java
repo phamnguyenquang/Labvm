@@ -1,4 +1,4 @@
-package Development_GUI;
+package GUI;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -10,7 +10,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 
 import BackEnd_Misc.SHA512Handler;
-import GUI.AdminGUI;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -51,7 +50,7 @@ public class Password {
 	protected void createContents() {
 		shell = new Shell();
 		shell.setSize(450, 130);
-		shell.setText("SWT Application");
+		shell.setText("Authentication");
 		shell.setLayout(null);
 
 		Label lblNewLabel = new Label(shell, SWT.NONE);
